@@ -1,0 +1,36 @@
+{
+    "board": {
+        "width": 150,
+        "height": 100,
+
+        "walls": [
+            {
+                "top_left": {"x": 30, "y": 40},
+                "bottom_right": {"x": 40, "y": 60}
+            },
+            {
+                "top_left": {"x": 110, "y": 40},
+                "bottom_right": {"x": 120, "y": 60}
+            }
+        ]
+    },
+
+    "constants": {
+        "max_cycles": 500,
+        "wall_creation_score_coefficient": 1.5,
+        "area_wall_death_score": -50,
+        "my_wall_death_score": -100,
+        "enemy_wall_death_score": -150
+    },
+
+    "agents": {
+        "Blue": {
+            "position": {"x": 5, "y": 10},
+            "direction": "Right"
+        },
+        "Yellow": {
+            "position": {"x": 145, "y": 90},
+            "direction": "Left"
+        }
+    }
+}
