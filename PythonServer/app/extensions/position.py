@@ -38,23 +38,9 @@ def __add__(self, other):
     return NotImplemented
 
 
-def __iadd__(self, other):
-    if isinstance(other, Position):
-        self.x += other.x
-        self.y += other.y
-    return NotImplemented
-
-
 def __sub__(self, other):
     if isinstance(other, Position):
         return Position(self.x - other.x, self.y - other.y)
-    return NotImplemented
-
-
-def __isub__(self, other):
-    if isinstance(other, Position):
-        self.x -= other.x
-        self.y -= other.y
     return NotImplemented
 
 
@@ -67,7 +53,5 @@ Position.__eq__ = __eq__
 Position.__ne__ = __ne__
 Position.__hash__ = __hash__
 Position.__add__ = __add__
-Position.__iadd__ = __iadd__
 Position.__sub__ = __sub__
-Position.__isub__ = __isub__
 Position.__repr__ = __repr__

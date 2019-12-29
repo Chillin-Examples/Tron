@@ -9,7 +9,9 @@ class GuiEventType(Enum):
     CrashAreaWall = 1
     CrashMyWall = 2
     CrashEnemyWall = 3
-    CaptureArea = 4
+    CrashEnemyAgent = 4
+    ConstructWall = 5
+    CaptureArea = 6
 
 
 

@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from . import position, agent, world
+from . import position, direction, agent, world
