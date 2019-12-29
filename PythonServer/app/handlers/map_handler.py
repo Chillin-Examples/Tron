@@ -41,9 +41,9 @@ class MapHandler:
         world.constants = Constants(
             max_cycles = constants_info['max_cycles'],
             wall_creation_score_coefficient = constants_info['wall_creation_score_coefficient'],
-            area_wall_death_score = constants_info['area_wall_death_score'],
-            my_wall_death_score = constants_info['my_wall_death_score'],
-            enemy_wall_death_score = constants_info['enemy_wall_death_score']
+            area_wall_crash_score = constants_info['area_wall_crash_score'],
+            my_wall_crash_score = constants_info['my_wall_crash_score'],
+            enemy_wall_crash_score = constants_info['enemy_wall_crash_score']
         )
 
 

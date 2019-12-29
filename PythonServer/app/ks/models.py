@@ -29,16 +29,16 @@ class Constants(object):
 		return 'Constants'
 
 
-	def __init__(self, max_cycles=None, wall_creation_score_coefficient=None, area_wall_death_score=None, my_wall_death_score=None, enemy_wall_death_score=None):
-		self.initialize(max_cycles, wall_creation_score_coefficient, area_wall_death_score, my_wall_death_score, enemy_wall_death_score)
+	def __init__(self, max_cycles=None, wall_creation_score_coefficient=None, area_wall_crash_score=None, my_wall_crash_score=None, enemy_wall_crash_score=None):
+		self.initialize(max_cycles, wall_creation_score_coefficient, area_wall_crash_score, my_wall_crash_score, enemy_wall_crash_score)
 	
 
-	def initialize(self, max_cycles=None, wall_creation_score_coefficient=None, area_wall_death_score=None, my_wall_death_score=None, enemy_wall_death_score=None):
+	def initialize(self, max_cycles=None, wall_creation_score_coefficient=None, area_wall_crash_score=None, my_wall_crash_score=None, enemy_wall_crash_score=None):
 		self.max_cycles = max_cycles
 		self.wall_creation_score_coefficient = wall_creation_score_coefficient
-		self.area_wall_death_score = area_wall_death_score
-		self.my_wall_death_score = my_wall_death_score
-		self.enemy_wall_death_score = enemy_wall_death_score
+		self.area_wall_crash_score = area_wall_crash_score
+		self.my_wall_crash_score = my_wall_crash_score
+		self.enemy_wall_crash_score = enemy_wall_crash_score
 	
 
 	def serialize(self):
@@ -54,20 +54,20 @@ class Constants(object):
 		if self.wall_creation_score_coefficient is not None:
 			s += struct.pack('f', self.wall_creation_score_coefficient)
 		
-		# serialize self.area_wall_death_score
-		s += b'\x00' if self.area_wall_death_score is None else b'\x01'
-		if self.area_wall_death_score is not None:
-			s += struct.pack('i', self.area_wall_death_score)
+		# serialize self.area_wall_crash_score
+		s += b'\x00' if self.area_wall_crash_score is None else b'\x01'
+		if self.area_wall_crash_score is not None:
+			s += struct.pack('i', self.area_wall_crash_score)
 		
-		# serialize self.my_wall_death_score
-		s += b'\x00' if self.my_wall_death_score is None else b'\x01'
-		if self.my_wall_death_score is not None:
-			s += struct.pack('i', self.my_wall_death_score)
+		# serialize self.my_wall_crash_score
+		s += b'\x00' if self.my_wall_crash_score is None else b'\x01'
+		if self.my_wall_crash_score is not None:
+			s += struct.pack('i', self.my_wall_crash_score)
 		
-		# serialize self.enemy_wall_death_score
-		s += b'\x00' if self.enemy_wall_death_score is None else b'\x01'
-		if self.enemy_wall_death_score is not None:
-			s += struct.pack('i', self.enemy_wall_death_score)
+		# serialize self.enemy_wall_crash_score
+		s += b'\x00' if self.enemy_wall_crash_score is None else b'\x01'
+		if self.enemy_wall_crash_score is not None:
+			s += struct.pack('i', self.enemy_wall_crash_score)
 		
 		return s
 	
@@ -91,32 +91,32 @@ class Constants(object):
 		else:
 			self.wall_creation_score_coefficient = None
 		
-		# deserialize self.area_wall_death_score
+		# deserialize self.area_wall_crash_score
 		tmp2 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
 		if tmp2:
-			self.area_wall_death_score = struct.unpack('i', s[offset:offset + 4])[0]
+			self.area_wall_crash_score = struct.unpack('i', s[offset:offset + 4])[0]
 			offset += 4
 		else:
-			self.area_wall_death_score = None
+			self.area_wall_crash_score = None
 		
-		# deserialize self.my_wall_death_score
+		# deserialize self.my_wall_crash_score
 		tmp3 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
 		if tmp3:
-			self.my_wall_death_score = struct.unpack('i', s[offset:offset + 4])[0]
+			self.my_wall_crash_score = struct.unpack('i', s[offset:offset + 4])[0]
 			offset += 4
 		else:
-			self.my_wall_death_score = None
+			self.my_wall_crash_score = None
 		
-		# deserialize self.enemy_wall_death_score
+		# deserialize self.enemy_wall_crash_score
 		tmp4 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
 		if tmp4:
-			self.enemy_wall_death_score = struct.unpack('i', s[offset:offset + 4])[0]
+			self.enemy_wall_crash_score = struct.unpack('i', s[offset:offset + 4])[0]
 			offset += 4
 		else:
-			self.enemy_wall_death_score = None
+			self.enemy_wall_crash_score = None
 		
 		return offset
 

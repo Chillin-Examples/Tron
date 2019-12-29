@@ -22,9 +22,9 @@ _def = enum <byte>
 _def = class
 max_cycles = int
 wall_creation_score_coefficient = float
-area_wall_death_score = int
-my_wall_death_score = int
-enemy_wall_death_score = int
+area_wall_crash_score = int
+my_wall_crash_score = int
+enemy_wall_crash_score = int
 
 
 [Position]
