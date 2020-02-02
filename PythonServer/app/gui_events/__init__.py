@@ -6,13 +6,16 @@ from enum import Enum
 
 class GuiEventType(Enum):
     ChangeDirection = 0
-    CrashAreaWall = 1
-    CrashMyWall = 2
-    CrashEnemyWall = 3
-    CrashEnemyAgent = 4
-    ConstructWall = 5
-    CaptureArea = 6
-
+    ActivateWallBreaker = 1
+    EndWallBreaker = 2
+    ReloadWallBreaker = 3
+    ConstructWall = 4
+    DestructWall = 5
+    CrashAreaWall = 6
+    CrashMyWall = 7
+    CrashEnemyWall = 8
+    CrashEnemyAgent = 9
+    DecreaseHealth = 10
 
 
 class GuiEvent(object):

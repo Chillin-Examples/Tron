@@ -23,7 +23,10 @@ namespace KS.Models
 	public partial class Constants : KSObject
 	{
 		public int? MaxCycles { get; set; }
-		public float? WallCreationScoreCoefficient { get; set; }
+		public int? MaxHealth { get; set; }
+		public int? WallBreakerCooldown { get; set; }
+		public int? WallBreakerDuration { get; set; }
+		public int? WallScoreCoefficient { get; set; }
 		public int? AreaWallCrashScore { get; set; }
 		public int? MyWallCrashScore { get; set; }
 		public int? EnemyWallCrashScore { get; set; }
@@ -48,11 +51,32 @@ namespace KS.Models
 				s.AddRange(BitConverter.GetBytes((int)MaxCycles));
 			}
 			
-			// serialize WallCreationScoreCoefficient
-			s.Add((byte)((WallCreationScoreCoefficient == null) ? 0 : 1));
-			if (WallCreationScoreCoefficient != null)
+			// serialize MaxHealth
+			s.Add((byte)((MaxHealth == null) ? 0 : 1));
+			if (MaxHealth != null)
 			{
-				s.AddRange(BitConverter.GetBytes((float)WallCreationScoreCoefficient));
+				s.AddRange(BitConverter.GetBytes((int)MaxHealth));
+			}
+			
+			// serialize WallBreakerCooldown
+			s.Add((byte)((WallBreakerCooldown == null) ? 0 : 1));
+			if (WallBreakerCooldown != null)
+			{
+				s.AddRange(BitConverter.GetBytes((int)WallBreakerCooldown));
+			}
+			
+			// serialize WallBreakerDuration
+			s.Add((byte)((WallBreakerDuration == null) ? 0 : 1));
+			if (WallBreakerDuration != null)
+			{
+				s.AddRange(BitConverter.GetBytes((int)WallBreakerDuration));
+			}
+			
+			// serialize WallScoreCoefficient
+			s.Add((byte)((WallScoreCoefficient == null) ? 0 : 1));
+			if (WallScoreCoefficient != null)
+			{
+				s.AddRange(BitConverter.GetBytes((int)WallScoreCoefficient));
 			}
 			
 			// serialize AreaWallCrashScore
@@ -93,23 +117,59 @@ namespace KS.Models
 			else
 				MaxCycles = null;
 			
-			// deserialize WallCreationScoreCoefficient
+			// deserialize MaxHealth
 			byte tmp1;
 			tmp1 = (byte)s[(int)offset];
 			offset += sizeof(byte);
 			if (tmp1 == 1)
 			{
-				WallCreationScoreCoefficient = BitConverter.ToSingle(s, (int)offset);
-				offset += sizeof(float);
+				MaxHealth = BitConverter.ToInt32(s, (int)offset);
+				offset += sizeof(int);
 			}
 			else
-				WallCreationScoreCoefficient = null;
+				MaxHealth = null;
 			
-			// deserialize AreaWallCrashScore
+			// deserialize WallBreakerCooldown
 			byte tmp2;
 			tmp2 = (byte)s[(int)offset];
 			offset += sizeof(byte);
 			if (tmp2 == 1)
+			{
+				WallBreakerCooldown = BitConverter.ToInt32(s, (int)offset);
+				offset += sizeof(int);
+			}
+			else
+				WallBreakerCooldown = null;
+			
+			// deserialize WallBreakerDuration
+			byte tmp3;
+			tmp3 = (byte)s[(int)offset];
+			offset += sizeof(byte);
+			if (tmp3 == 1)
+			{
+				WallBreakerDuration = BitConverter.ToInt32(s, (int)offset);
+				offset += sizeof(int);
+			}
+			else
+				WallBreakerDuration = null;
+			
+			// deserialize WallScoreCoefficient
+			byte tmp4;
+			tmp4 = (byte)s[(int)offset];
+			offset += sizeof(byte);
+			if (tmp4 == 1)
+			{
+				WallScoreCoefficient = BitConverter.ToInt32(s, (int)offset);
+				offset += sizeof(int);
+			}
+			else
+				WallScoreCoefficient = null;
+			
+			// deserialize AreaWallCrashScore
+			byte tmp5;
+			tmp5 = (byte)s[(int)offset];
+			offset += sizeof(byte);
+			if (tmp5 == 1)
 			{
 				AreaWallCrashScore = BitConverter.ToInt32(s, (int)offset);
 				offset += sizeof(int);
@@ -118,10 +178,10 @@ namespace KS.Models
 				AreaWallCrashScore = null;
 			
 			// deserialize MyWallCrashScore
-			byte tmp3;
-			tmp3 = (byte)s[(int)offset];
+			byte tmp6;
+			tmp6 = (byte)s[(int)offset];
 			offset += sizeof(byte);
-			if (tmp3 == 1)
+			if (tmp6 == 1)
 			{
 				MyWallCrashScore = BitConverter.ToInt32(s, (int)offset);
 				offset += sizeof(int);
@@ -130,10 +190,10 @@ namespace KS.Models
 				MyWallCrashScore = null;
 			
 			// deserialize EnemyWallCrashScore
-			byte tmp4;
-			tmp4 = (byte)s[(int)offset];
+			byte tmp7;
+			tmp7 = (byte)s[(int)offset];
 			offset += sizeof(byte);
-			if (tmp4 == 1)
+			if (tmp7 == 1)
 			{
 				EnemyWallCrashScore = BitConverter.ToInt32(s, (int)offset);
 				offset += sizeof(int);
@@ -183,10 +243,10 @@ namespace KS.Models
 		public override uint Deserialize(byte[] s, uint offset = 0)
 		{
 			// deserialize X
-			byte tmp5;
-			tmp5 = (byte)s[(int)offset];
+			byte tmp8;
+			tmp8 = (byte)s[(int)offset];
 			offset += sizeof(byte);
-			if (tmp5 == 1)
+			if (tmp8 == 1)
 			{
 				X = BitConverter.ToInt32(s, (int)offset);
 				offset += sizeof(int);
@@ -195,10 +255,10 @@ namespace KS.Models
 				X = null;
 			
 			// deserialize Y
-			byte tmp6;
-			tmp6 = (byte)s[(int)offset];
+			byte tmp9;
+			tmp9 = (byte)s[(int)offset];
 			offset += sizeof(byte);
-			if (tmp6 == 1)
+			if (tmp9 == 1)
 			{
 				Y = BitConverter.ToInt32(s, (int)offset);
 				offset += sizeof(int);
@@ -212,8 +272,11 @@ namespace KS.Models
 	
 	public partial class Agent : KSObject
 	{
+		public int? Health { get; set; }
 		public Position Position { get; set; }
 		public EDirection? Direction { get; set; }
+		public int? WallBreakerCooldown { get; set; }
+		public int? WallBreakerRemTime { get; set; }
 		
 
 		public Agent()
@@ -227,6 +290,13 @@ namespace KS.Models
 		public override byte[] Serialize()
 		{
 			List<byte> s = new List<byte>();
+			
+			// serialize Health
+			s.Add((byte)((Health == null) ? 0 : 1));
+			if (Health != null)
+			{
+				s.AddRange(BitConverter.GetBytes((int)Health));
+			}
 			
 			// serialize Position
 			s.Add((byte)((Position == null) ? 0 : 1));
@@ -242,16 +312,42 @@ namespace KS.Models
 				s.Add((byte)((sbyte)Direction));
 			}
 			
+			// serialize WallBreakerCooldown
+			s.Add((byte)((WallBreakerCooldown == null) ? 0 : 1));
+			if (WallBreakerCooldown != null)
+			{
+				s.AddRange(BitConverter.GetBytes((int)WallBreakerCooldown));
+			}
+			
+			// serialize WallBreakerRemTime
+			s.Add((byte)((WallBreakerRemTime == null) ? 0 : 1));
+			if (WallBreakerRemTime != null)
+			{
+				s.AddRange(BitConverter.GetBytes((int)WallBreakerRemTime));
+			}
+			
 			return s.ToArray();
 		}
 		
 		public override uint Deserialize(byte[] s, uint offset = 0)
 		{
-			// deserialize Position
-			byte tmp7;
-			tmp7 = (byte)s[(int)offset];
+			// deserialize Health
+			byte tmp10;
+			tmp10 = (byte)s[(int)offset];
 			offset += sizeof(byte);
-			if (tmp7 == 1)
+			if (tmp10 == 1)
+			{
+				Health = BitConverter.ToInt32(s, (int)offset);
+				offset += sizeof(int);
+			}
+			else
+				Health = null;
+			
+			// deserialize Position
+			byte tmp11;
+			tmp11 = (byte)s[(int)offset];
+			offset += sizeof(byte);
+			if (tmp11 == 1)
 			{
 				Position = new Position();
 				offset = Position.Deserialize(s, offset);
@@ -260,18 +356,42 @@ namespace KS.Models
 				Position = null;
 			
 			// deserialize Direction
-			byte tmp8;
-			tmp8 = (byte)s[(int)offset];
+			byte tmp12;
+			tmp12 = (byte)s[(int)offset];
 			offset += sizeof(byte);
-			if (tmp8 == 1)
+			if (tmp12 == 1)
 			{
-				sbyte tmp9;
-				tmp9 = (sbyte)s[(int)offset];
+				sbyte tmp13;
+				tmp13 = (sbyte)s[(int)offset];
 				offset += sizeof(sbyte);
-				Direction = (EDirection)tmp9;
+				Direction = (EDirection)tmp13;
 			}
 			else
 				Direction = null;
+			
+			// deserialize WallBreakerCooldown
+			byte tmp14;
+			tmp14 = (byte)s[(int)offset];
+			offset += sizeof(byte);
+			if (tmp14 == 1)
+			{
+				WallBreakerCooldown = BitConverter.ToInt32(s, (int)offset);
+				offset += sizeof(int);
+			}
+			else
+				WallBreakerCooldown = null;
+			
+			// deserialize WallBreakerRemTime
+			byte tmp15;
+			tmp15 = (byte)s[(int)offset];
+			offset += sizeof(byte);
+			if (tmp15 == 1)
+			{
+				WallBreakerRemTime = BitConverter.ToInt32(s, (int)offset);
+				offset += sizeof(int);
+			}
+			else
+				WallBreakerRemTime = null;
 			
 			return offset;
 		}
@@ -281,7 +401,7 @@ namespace KS.Models
 	{
 		public List<List<ECell?>> Board { get; set; }
 		public Dictionary<string, Agent> Agents { get; set; }
-		public Dictionary<string, float?> Scores { get; set; }
+		public Dictionary<string, int?> Scores { get; set; }
 		public Constants Constants { get; set; }
 		
 
@@ -301,31 +421,31 @@ namespace KS.Models
 			s.Add((byte)((Board == null) ? 0 : 1));
 			if (Board != null)
 			{
-				List<byte> tmp10 = new List<byte>();
-				tmp10.AddRange(BitConverter.GetBytes((uint)Board.Count()));
-				while (tmp10.Count > 0 && tmp10.Last() == 0)
-					tmp10.RemoveAt(tmp10.Count - 1);
-				s.Add((byte)tmp10.Count);
-				s.AddRange(tmp10);
+				List<byte> tmp16 = new List<byte>();
+				tmp16.AddRange(BitConverter.GetBytes((uint)Board.Count()));
+				while (tmp16.Count > 0 && tmp16.Last() == 0)
+					tmp16.RemoveAt(tmp16.Count - 1);
+				s.Add((byte)tmp16.Count);
+				s.AddRange(tmp16);
 				
-				foreach (var tmp11 in Board)
+				foreach (var tmp17 in Board)
 				{
-					s.Add((byte)((tmp11 == null) ? 0 : 1));
-					if (tmp11 != null)
+					s.Add((byte)((tmp17 == null) ? 0 : 1));
+					if (tmp17 != null)
 					{
-						List<byte> tmp12 = new List<byte>();
-						tmp12.AddRange(BitConverter.GetBytes((uint)tmp11.Count()));
-						while (tmp12.Count > 0 && tmp12.Last() == 0)
-							tmp12.RemoveAt(tmp12.Count - 1);
-						s.Add((byte)tmp12.Count);
-						s.AddRange(tmp12);
+						List<byte> tmp18 = new List<byte>();
+						tmp18.AddRange(BitConverter.GetBytes((uint)tmp17.Count()));
+						while (tmp18.Count > 0 && tmp18.Last() == 0)
+							tmp18.RemoveAt(tmp18.Count - 1);
+						s.Add((byte)tmp18.Count);
+						s.AddRange(tmp18);
 						
-						foreach (var tmp13 in tmp11)
+						foreach (var tmp19 in tmp17)
 						{
-							s.Add((byte)((tmp13 == null) ? 0 : 1));
-							if (tmp13 != null)
+							s.Add((byte)((tmp19 == null) ? 0 : 1));
+							if (tmp19 != null)
 							{
-								s.Add((byte)((sbyte)tmp13));
+								s.Add((byte)((sbyte)tmp19));
 							}
 						}
 					}
@@ -336,32 +456,32 @@ namespace KS.Models
 			s.Add((byte)((Agents == null) ? 0 : 1));
 			if (Agents != null)
 			{
-				List<byte> tmp14 = new List<byte>();
-				tmp14.AddRange(BitConverter.GetBytes((uint)Agents.Count()));
-				while (tmp14.Count > 0 && tmp14.Last() == 0)
-					tmp14.RemoveAt(tmp14.Count - 1);
-				s.Add((byte)tmp14.Count);
-				s.AddRange(tmp14);
+				List<byte> tmp20 = new List<byte>();
+				tmp20.AddRange(BitConverter.GetBytes((uint)Agents.Count()));
+				while (tmp20.Count > 0 && tmp20.Last() == 0)
+					tmp20.RemoveAt(tmp20.Count - 1);
+				s.Add((byte)tmp20.Count);
+				s.AddRange(tmp20);
 				
-				foreach (var tmp15 in Agents)
+				foreach (var tmp21 in Agents)
 				{
-					s.Add((byte)((tmp15.Key == null) ? 0 : 1));
-					if (tmp15.Key != null)
+					s.Add((byte)((tmp21.Key == null) ? 0 : 1));
+					if (tmp21.Key != null)
 					{
-						List<byte> tmp16 = new List<byte>();
-						tmp16.AddRange(BitConverter.GetBytes((uint)tmp15.Key.Count()));
-						while (tmp16.Count > 0 && tmp16.Last() == 0)
-							tmp16.RemoveAt(tmp16.Count - 1);
-						s.Add((byte)tmp16.Count);
-						s.AddRange(tmp16);
+						List<byte> tmp22 = new List<byte>();
+						tmp22.AddRange(BitConverter.GetBytes((uint)tmp21.Key.Count()));
+						while (tmp22.Count > 0 && tmp22.Last() == 0)
+							tmp22.RemoveAt(tmp22.Count - 1);
+						s.Add((byte)tmp22.Count);
+						s.AddRange(tmp22);
 						
-						s.AddRange(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(tmp15.Key));
+						s.AddRange(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(tmp21.Key));
 					}
 					
-					s.Add((byte)((tmp15.Value == null) ? 0 : 1));
-					if (tmp15.Value != null)
+					s.Add((byte)((tmp21.Value == null) ? 0 : 1));
+					if (tmp21.Value != null)
 					{
-						s.AddRange(tmp15.Value.Serialize());
+						s.AddRange(tmp21.Value.Serialize());
 					}
 				}
 			}
@@ -370,32 +490,32 @@ namespace KS.Models
 			s.Add((byte)((Scores == null) ? 0 : 1));
 			if (Scores != null)
 			{
-				List<byte> tmp17 = new List<byte>();
-				tmp17.AddRange(BitConverter.GetBytes((uint)Scores.Count()));
-				while (tmp17.Count > 0 && tmp17.Last() == 0)
-					tmp17.RemoveAt(tmp17.Count - 1);
-				s.Add((byte)tmp17.Count);
-				s.AddRange(tmp17);
+				List<byte> tmp23 = new List<byte>();
+				tmp23.AddRange(BitConverter.GetBytes((uint)Scores.Count()));
+				while (tmp23.Count > 0 && tmp23.Last() == 0)
+					tmp23.RemoveAt(tmp23.Count - 1);
+				s.Add((byte)tmp23.Count);
+				s.AddRange(tmp23);
 				
-				foreach (var tmp18 in Scores)
+				foreach (var tmp24 in Scores)
 				{
-					s.Add((byte)((tmp18.Key == null) ? 0 : 1));
-					if (tmp18.Key != null)
+					s.Add((byte)((tmp24.Key == null) ? 0 : 1));
+					if (tmp24.Key != null)
 					{
-						List<byte> tmp19 = new List<byte>();
-						tmp19.AddRange(BitConverter.GetBytes((uint)tmp18.Key.Count()));
-						while (tmp19.Count > 0 && tmp19.Last() == 0)
-							tmp19.RemoveAt(tmp19.Count - 1);
-						s.Add((byte)tmp19.Count);
-						s.AddRange(tmp19);
+						List<byte> tmp25 = new List<byte>();
+						tmp25.AddRange(BitConverter.GetBytes((uint)tmp24.Key.Count()));
+						while (tmp25.Count > 0 && tmp25.Last() == 0)
+							tmp25.RemoveAt(tmp25.Count - 1);
+						s.Add((byte)tmp25.Count);
+						s.AddRange(tmp25);
 						
-						s.AddRange(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(tmp18.Key));
+						s.AddRange(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(tmp24.Key));
 					}
 					
-					s.Add((byte)((tmp18.Value == null) ? 0 : 1));
-					if (tmp18.Value != null)
+					s.Add((byte)((tmp24.Value == null) ? 0 : 1));
+					if (tmp24.Value != null)
 					{
-						s.AddRange(BitConverter.GetBytes((float)tmp18.Value));
+						s.AddRange(BitConverter.GetBytes((int)tmp24.Value));
 					}
 				}
 			}
@@ -413,184 +533,184 @@ namespace KS.Models
 		public override uint Deserialize(byte[] s, uint offset = 0)
 		{
 			// deserialize Board
-			byte tmp20;
-			tmp20 = (byte)s[(int)offset];
+			byte tmp26;
+			tmp26 = (byte)s[(int)offset];
 			offset += sizeof(byte);
-			if (tmp20 == 1)
+			if (tmp26 == 1)
 			{
-				byte tmp21;
-				tmp21 = (byte)s[(int)offset];
+				byte tmp27;
+				tmp27 = (byte)s[(int)offset];
 				offset += sizeof(byte);
-				byte[] tmp22 = new byte[sizeof(uint)];
-				Array.Copy(s, offset, tmp22, 0, tmp21);
-				offset += tmp21;
-				uint tmp23;
-				tmp23 = BitConverter.ToUInt32(tmp22, (int)0);
+				byte[] tmp28 = new byte[sizeof(uint)];
+				Array.Copy(s, offset, tmp28, 0, tmp27);
+				offset += tmp27;
+				uint tmp29;
+				tmp29 = BitConverter.ToUInt32(tmp28, (int)0);
 				
 				Board = new List<List<ECell?>>();
-				for (uint tmp24 = 0; tmp24 < tmp23; tmp24++)
+				for (uint tmp30 = 0; tmp30 < tmp29; tmp30++)
 				{
-					List<ECell?> tmp25;
-					byte tmp26;
-					tmp26 = (byte)s[(int)offset];
+					List<ECell?> tmp31;
+					byte tmp32;
+					tmp32 = (byte)s[(int)offset];
 					offset += sizeof(byte);
-					if (tmp26 == 1)
+					if (tmp32 == 1)
 					{
-						byte tmp27;
-						tmp27 = (byte)s[(int)offset];
+						byte tmp33;
+						tmp33 = (byte)s[(int)offset];
 						offset += sizeof(byte);
-						byte[] tmp28 = new byte[sizeof(uint)];
-						Array.Copy(s, offset, tmp28, 0, tmp27);
-						offset += tmp27;
-						uint tmp29;
-						tmp29 = BitConverter.ToUInt32(tmp28, (int)0);
+						byte[] tmp34 = new byte[sizeof(uint)];
+						Array.Copy(s, offset, tmp34, 0, tmp33);
+						offset += tmp33;
+						uint tmp35;
+						tmp35 = BitConverter.ToUInt32(tmp34, (int)0);
 						
-						tmp25 = new List<ECell?>();
-						for (uint tmp30 = 0; tmp30 < tmp29; tmp30++)
+						tmp31 = new List<ECell?>();
+						for (uint tmp36 = 0; tmp36 < tmp35; tmp36++)
 						{
-							ECell? tmp31;
-							byte tmp32;
-							tmp32 = (byte)s[(int)offset];
+							ECell? tmp37;
+							byte tmp38;
+							tmp38 = (byte)s[(int)offset];
 							offset += sizeof(byte);
-							if (tmp32 == 1)
+							if (tmp38 == 1)
 							{
-								sbyte tmp33;
-								tmp33 = (sbyte)s[(int)offset];
+								sbyte tmp39;
+								tmp39 = (sbyte)s[(int)offset];
 								offset += sizeof(sbyte);
-								tmp31 = (ECell)tmp33;
+								tmp37 = (ECell)tmp39;
 							}
 							else
-								tmp31 = null;
-							tmp25.Add(tmp31);
+								tmp37 = null;
+							tmp31.Add(tmp37);
 						}
 					}
 					else
-						tmp25 = null;
-					Board.Add(tmp25);
+						tmp31 = null;
+					Board.Add(tmp31);
 				}
 			}
 			else
 				Board = null;
 			
 			// deserialize Agents
-			byte tmp34;
-			tmp34 = (byte)s[(int)offset];
+			byte tmp40;
+			tmp40 = (byte)s[(int)offset];
 			offset += sizeof(byte);
-			if (tmp34 == 1)
+			if (tmp40 == 1)
 			{
-				byte tmp35;
-				tmp35 = (byte)s[(int)offset];
+				byte tmp41;
+				tmp41 = (byte)s[(int)offset];
 				offset += sizeof(byte);
-				byte[] tmp36 = new byte[sizeof(uint)];
-				Array.Copy(s, offset, tmp36, 0, tmp35);
-				offset += tmp35;
-				uint tmp37;
-				tmp37 = BitConverter.ToUInt32(tmp36, (int)0);
+				byte[] tmp42 = new byte[sizeof(uint)];
+				Array.Copy(s, offset, tmp42, 0, tmp41);
+				offset += tmp41;
+				uint tmp43;
+				tmp43 = BitConverter.ToUInt32(tmp42, (int)0);
 				
 				Agents = new Dictionary<string, Agent>();
-				for (uint tmp38 = 0; tmp38 < tmp37; tmp38++)
+				for (uint tmp44 = 0; tmp44 < tmp43; tmp44++)
 				{
-					string tmp39;
-					byte tmp41;
-					tmp41 = (byte)s[(int)offset];
+					string tmp45;
+					byte tmp47;
+					tmp47 = (byte)s[(int)offset];
 					offset += sizeof(byte);
-					if (tmp41 == 1)
+					if (tmp47 == 1)
 					{
-						byte tmp42;
-						tmp42 = (byte)s[(int)offset];
+						byte tmp48;
+						tmp48 = (byte)s[(int)offset];
 						offset += sizeof(byte);
-						byte[] tmp43 = new byte[sizeof(uint)];
-						Array.Copy(s, offset, tmp43, 0, tmp42);
-						offset += tmp42;
-						uint tmp44;
-						tmp44 = BitConverter.ToUInt32(tmp43, (int)0);
+						byte[] tmp49 = new byte[sizeof(uint)];
+						Array.Copy(s, offset, tmp49, 0, tmp48);
+						offset += tmp48;
+						uint tmp50;
+						tmp50 = BitConverter.ToUInt32(tmp49, (int)0);
 						
-						tmp39 = System.Text.Encoding.GetEncoding("ISO-8859-1").GetString(s.Skip((int)offset).Take((int)tmp44).ToArray());
-						offset += tmp44;
+						tmp45 = System.Text.Encoding.GetEncoding("ISO-8859-1").GetString(s.Skip((int)offset).Take((int)tmp50).ToArray());
+						offset += tmp50;
 					}
 					else
-						tmp39 = null;
+						tmp45 = null;
 					
-					Agent tmp40;
-					byte tmp45;
-					tmp45 = (byte)s[(int)offset];
+					Agent tmp46;
+					byte tmp51;
+					tmp51 = (byte)s[(int)offset];
 					offset += sizeof(byte);
-					if (tmp45 == 1)
+					if (tmp51 == 1)
 					{
-						tmp40 = new Agent();
-						offset = tmp40.Deserialize(s, offset);
+						tmp46 = new Agent();
+						offset = tmp46.Deserialize(s, offset);
 					}
 					else
-						tmp40 = null;
+						tmp46 = null;
 					
-					Agents[tmp39] = tmp40;
+					Agents[tmp45] = tmp46;
 				}
 			}
 			else
 				Agents = null;
 			
 			// deserialize Scores
-			byte tmp46;
-			tmp46 = (byte)s[(int)offset];
+			byte tmp52;
+			tmp52 = (byte)s[(int)offset];
 			offset += sizeof(byte);
-			if (tmp46 == 1)
+			if (tmp52 == 1)
 			{
-				byte tmp47;
-				tmp47 = (byte)s[(int)offset];
+				byte tmp53;
+				tmp53 = (byte)s[(int)offset];
 				offset += sizeof(byte);
-				byte[] tmp48 = new byte[sizeof(uint)];
-				Array.Copy(s, offset, tmp48, 0, tmp47);
-				offset += tmp47;
-				uint tmp49;
-				tmp49 = BitConverter.ToUInt32(tmp48, (int)0);
+				byte[] tmp54 = new byte[sizeof(uint)];
+				Array.Copy(s, offset, tmp54, 0, tmp53);
+				offset += tmp53;
+				uint tmp55;
+				tmp55 = BitConverter.ToUInt32(tmp54, (int)0);
 				
-				Scores = new Dictionary<string, float?>();
-				for (uint tmp50 = 0; tmp50 < tmp49; tmp50++)
+				Scores = new Dictionary<string, int?>();
+				for (uint tmp56 = 0; tmp56 < tmp55; tmp56++)
 				{
-					string tmp51;
-					byte tmp53;
-					tmp53 = (byte)s[(int)offset];
+					string tmp57;
+					byte tmp59;
+					tmp59 = (byte)s[(int)offset];
 					offset += sizeof(byte);
-					if (tmp53 == 1)
+					if (tmp59 == 1)
 					{
-						byte tmp54;
-						tmp54 = (byte)s[(int)offset];
+						byte tmp60;
+						tmp60 = (byte)s[(int)offset];
 						offset += sizeof(byte);
-						byte[] tmp55 = new byte[sizeof(uint)];
-						Array.Copy(s, offset, tmp55, 0, tmp54);
-						offset += tmp54;
-						uint tmp56;
-						tmp56 = BitConverter.ToUInt32(tmp55, (int)0);
+						byte[] tmp61 = new byte[sizeof(uint)];
+						Array.Copy(s, offset, tmp61, 0, tmp60);
+						offset += tmp60;
+						uint tmp62;
+						tmp62 = BitConverter.ToUInt32(tmp61, (int)0);
 						
-						tmp51 = System.Text.Encoding.GetEncoding("ISO-8859-1").GetString(s.Skip((int)offset).Take((int)tmp56).ToArray());
-						offset += tmp56;
+						tmp57 = System.Text.Encoding.GetEncoding("ISO-8859-1").GetString(s.Skip((int)offset).Take((int)tmp62).ToArray());
+						offset += tmp62;
 					}
 					else
-						tmp51 = null;
+						tmp57 = null;
 					
-					float? tmp52;
-					byte tmp57;
-					tmp57 = (byte)s[(int)offset];
+					int? tmp58;
+					byte tmp63;
+					tmp63 = (byte)s[(int)offset];
 					offset += sizeof(byte);
-					if (tmp57 == 1)
+					if (tmp63 == 1)
 					{
-						tmp52 = BitConverter.ToSingle(s, (int)offset);
-						offset += sizeof(float);
+						tmp58 = BitConverter.ToInt32(s, (int)offset);
+						offset += sizeof(int);
 					}
 					else
-						tmp52 = null;
+						tmp58 = null;
 					
-					Scores[tmp51] = tmp52;
+					Scores[tmp57] = tmp58;
 				}
 			}
 			else
 				Scores = null;
 			
 			// deserialize Constants
-			byte tmp58;
-			tmp58 = (byte)s[(int)offset];
+			byte tmp64;
+			tmp64 = (byte)s[(int)offset];
 			offset += sizeof(byte);
-			if (tmp58 == 1)
+			if (tmp64 == 1)
 			{
 				Constants = new Constants();
 				offset = Constants.Deserialize(s, offset);

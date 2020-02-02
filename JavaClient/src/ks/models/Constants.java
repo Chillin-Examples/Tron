@@ -10,7 +10,10 @@ import ks.KSObject;
 public class Constants extends KSObject
 {
 	protected Integer maxCycles;
-	protected Float wallCreationScoreCoefficient;
+	protected Integer maxHealth;
+	protected Integer wallBreakerCooldown;
+	protected Integer wallBreakerDuration;
+	protected Integer wallScoreCoefficient;
 	protected Integer areaWallCrashScore;
 	protected Integer myWallCrashScore;
 	protected Integer enemyWallCrashScore;
@@ -22,9 +25,24 @@ public class Constants extends KSObject
 		return this.maxCycles;
 	}
 	
-	public Float getWallCreationScoreCoefficient()
+	public Integer getMaxHealth()
 	{
-		return this.wallCreationScoreCoefficient;
+		return this.maxHealth;
+	}
+	
+	public Integer getWallBreakerCooldown()
+	{
+		return this.wallBreakerCooldown;
+	}
+	
+	public Integer getWallBreakerDuration()
+	{
+		return this.wallBreakerDuration;
+	}
+	
+	public Integer getWallScoreCoefficient()
+	{
+		return this.wallScoreCoefficient;
 	}
 	
 	public Integer getAreaWallCrashScore()
@@ -50,9 +68,24 @@ public class Constants extends KSObject
 		this.maxCycles = maxCycles;
 	}
 	
-	public void setWallCreationScoreCoefficient(Float wallCreationScoreCoefficient)
+	public void setMaxHealth(Integer maxHealth)
 	{
-		this.wallCreationScoreCoefficient = wallCreationScoreCoefficient;
+		this.maxHealth = maxHealth;
+	}
+	
+	public void setWallBreakerCooldown(Integer wallBreakerCooldown)
+	{
+		this.wallBreakerCooldown = wallBreakerCooldown;
+	}
+	
+	public void setWallBreakerDuration(Integer wallBreakerDuration)
+	{
+		this.wallBreakerDuration = wallBreakerDuration;
+	}
+	
+	public void setWallScoreCoefficient(Integer wallScoreCoefficient)
+	{
+		this.wallScoreCoefficient = wallScoreCoefficient;
 	}
 	
 	public void setAreaWallCrashScore(Integer areaWallCrashScore)
@@ -92,11 +125,32 @@ public class Constants extends KSObject
 			s.addAll(b2B(ByteBuffer.allocate(Integer.BYTES).order(ByteOrder.LITTLE_ENDIAN).putInt(maxCycles).array()));
 		}
 		
-		// serialize wallCreationScoreCoefficient
-		s.add((byte) ((wallCreationScoreCoefficient == null) ? 0 : 1));
-		if (wallCreationScoreCoefficient != null)
+		// serialize maxHealth
+		s.add((byte) ((maxHealth == null) ? 0 : 1));
+		if (maxHealth != null)
 		{
-			s.addAll(b2B(ByteBuffer.allocate(Float.BYTES).order(ByteOrder.LITTLE_ENDIAN).putFloat(wallCreationScoreCoefficient).array()));
+			s.addAll(b2B(ByteBuffer.allocate(Integer.BYTES).order(ByteOrder.LITTLE_ENDIAN).putInt(maxHealth).array()));
+		}
+		
+		// serialize wallBreakerCooldown
+		s.add((byte) ((wallBreakerCooldown == null) ? 0 : 1));
+		if (wallBreakerCooldown != null)
+		{
+			s.addAll(b2B(ByteBuffer.allocate(Integer.BYTES).order(ByteOrder.LITTLE_ENDIAN).putInt(wallBreakerCooldown).array()));
+		}
+		
+		// serialize wallBreakerDuration
+		s.add((byte) ((wallBreakerDuration == null) ? 0 : 1));
+		if (wallBreakerDuration != null)
+		{
+			s.addAll(b2B(ByteBuffer.allocate(Integer.BYTES).order(ByteOrder.LITTLE_ENDIAN).putInt(wallBreakerDuration).array()));
+		}
+		
+		// serialize wallScoreCoefficient
+		s.add((byte) ((wallScoreCoefficient == null) ? 0 : 1));
+		if (wallScoreCoefficient != null)
+		{
+			s.addAll(b2B(ByteBuffer.allocate(Integer.BYTES).order(ByteOrder.LITTLE_ENDIAN).putInt(wallScoreCoefficient).array()));
 		}
 		
 		// serialize areaWallCrashScore
@@ -138,23 +192,59 @@ public class Constants extends KSObject
 		else
 			maxCycles = null;
 		
-		// deserialize wallCreationScoreCoefficient
+		// deserialize maxHealth
 		byte tmp1;
 		tmp1 = s[offset];
 		offset += Byte.BYTES;
 		if (tmp1 == 1)
 		{
-			wallCreationScoreCoefficient = ByteBuffer.wrap(Arrays.copyOfRange(s, offset, offset + Float.BYTES)).order(ByteOrder.LITTLE_ENDIAN).getFloat();
-			offset += Float.BYTES;
+			maxHealth = ByteBuffer.wrap(Arrays.copyOfRange(s, offset, offset + Integer.BYTES)).order(ByteOrder.LITTLE_ENDIAN).getInt();
+			offset += Integer.BYTES;
 		}
 		else
-			wallCreationScoreCoefficient = null;
+			maxHealth = null;
 		
-		// deserialize areaWallCrashScore
+		// deserialize wallBreakerCooldown
 		byte tmp2;
 		tmp2 = s[offset];
 		offset += Byte.BYTES;
 		if (tmp2 == 1)
+		{
+			wallBreakerCooldown = ByteBuffer.wrap(Arrays.copyOfRange(s, offset, offset + Integer.BYTES)).order(ByteOrder.LITTLE_ENDIAN).getInt();
+			offset += Integer.BYTES;
+		}
+		else
+			wallBreakerCooldown = null;
+		
+		// deserialize wallBreakerDuration
+		byte tmp3;
+		tmp3 = s[offset];
+		offset += Byte.BYTES;
+		if (tmp3 == 1)
+		{
+			wallBreakerDuration = ByteBuffer.wrap(Arrays.copyOfRange(s, offset, offset + Integer.BYTES)).order(ByteOrder.LITTLE_ENDIAN).getInt();
+			offset += Integer.BYTES;
+		}
+		else
+			wallBreakerDuration = null;
+		
+		// deserialize wallScoreCoefficient
+		byte tmp4;
+		tmp4 = s[offset];
+		offset += Byte.BYTES;
+		if (tmp4 == 1)
+		{
+			wallScoreCoefficient = ByteBuffer.wrap(Arrays.copyOfRange(s, offset, offset + Integer.BYTES)).order(ByteOrder.LITTLE_ENDIAN).getInt();
+			offset += Integer.BYTES;
+		}
+		else
+			wallScoreCoefficient = null;
+		
+		// deserialize areaWallCrashScore
+		byte tmp5;
+		tmp5 = s[offset];
+		offset += Byte.BYTES;
+		if (tmp5 == 1)
 		{
 			areaWallCrashScore = ByteBuffer.wrap(Arrays.copyOfRange(s, offset, offset + Integer.BYTES)).order(ByteOrder.LITTLE_ENDIAN).getInt();
 			offset += Integer.BYTES;
@@ -163,10 +253,10 @@ public class Constants extends KSObject
 			areaWallCrashScore = null;
 		
 		// deserialize myWallCrashScore
-		byte tmp3;
-		tmp3 = s[offset];
+		byte tmp6;
+		tmp6 = s[offset];
 		offset += Byte.BYTES;
-		if (tmp3 == 1)
+		if (tmp6 == 1)
 		{
 			myWallCrashScore = ByteBuffer.wrap(Arrays.copyOfRange(s, offset, offset + Integer.BYTES)).order(ByteOrder.LITTLE_ENDIAN).getInt();
 			offset += Integer.BYTES;
@@ -175,10 +265,10 @@ public class Constants extends KSObject
 			myWallCrashScore = null;
 		
 		// deserialize enemyWallCrashScore
-		byte tmp4;
-		tmp4 = s[offset];
+		byte tmp7;
+		tmp7 = s[offset];
 		offset += Byte.BYTES;
-		if (tmp4 == 1)
+		if (tmp7 == 1)
 		{
 			enemyWallCrashScore = ByteBuffer.wrap(Arrays.copyOfRange(s, offset, offset + Integer.BYTES)).order(ByteOrder.LITTLE_ENDIAN).getInt();
 			offset += Integer.BYTES;

@@ -53,3 +53,28 @@ class ChangeDirection(object):
 			self.direction = None
 		
 		return offset
+
+
+class ActivateWallBreaker(object):
+
+	@staticmethod
+	def name():
+		return 'ActivateWallBreaker'
+
+
+	def __init__(self):
+		self.initialize()
+	
+
+	def initialize(self):
+		pass
+	
+
+	def serialize(self):
+		s = b''
+		
+		return s
+	
+
+	def deserialize(self, s, offset=0):
+		return offset

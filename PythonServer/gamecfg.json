@@ -26,8 +26,8 @@
 		"replay_filename": null,
 		"cycle_duration": 0.5,
 		"side_colors": {
-			"Blue": "blue",
-			"Yellow": "yellow"
+			"Blue": "#00FFFF",
+			"Yellow": "#FFFF00"
 		}
 	},
 

@@ -3,14 +3,18 @@
 # project imports
 from ..ks.models import World
 from ..gui_events import GuiEvent, GuiEventType
+from ..ks.commands import ChangeDirection, ActivateWallBreaker
 
 
 def apply_commands(self, commands):
     gui_events = []
 
-    for side, command in commands.items():
-        if command:
-            self.agents[side].change_direction(self, side, command.direction)
+    for side, last_commands in commands.items():
+        for command in last_commands.values():
+            if command.name() == ChangeDirection.name():
+                gui_events += self.agents[side].change_direction(self, side, command.direction)
+            elif command.name() == ActivateWallBreaker.name():
+                gui_events += self.agents[side].activate_wall_breaker(self, side)
 
     return gui_events
 
@@ -19,13 +23,16 @@ def tick(self):
     gui_events = []
 
     for side, agent in self.agents.items():
+        gui_events += agent.tick_wall_breaker(self, side)
+
+    for side, agent in self.agents.items():
         gui_events += agent.construct_wall(self, side)
 
     for side, agent in self.agents.items():
         gui_events += agent.move(self, side)
 
     for side, agent in self.agents.items():
-        gui_events += agent.handle_crash(self, side)
+        gui_events += agent.handle_collision(self, side)
 
     return gui_events
 

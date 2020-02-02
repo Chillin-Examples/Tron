@@ -138,6 +138,59 @@ public:
 	}
 };
 
+
+class ActivateWallBreaker : public KSObject
+{
+
+protected:
+
+
+
+
+public: // getters
+
+
+public: // reference getters
+
+
+public: // setters
+
+
+public: // has_attribute getters
+
+
+public: // has_attribute setters
+
+
+public:
+
+	ActivateWallBreaker()
+	{
+	}
+	
+	static inline const std::string nameStatic()
+	{
+		return "ActivateWallBreaker";
+	}
+	
+	virtual inline const std::string name() const
+	{
+		return "ActivateWallBreaker";
+	}
+	
+	std::string serialize() const
+	{
+		std::string s = "";
+		
+		return s;
+	}
+	
+	unsigned int deserialize(const std::string &s, unsigned int offset=0)
+	{
+		return offset;
+	}
+};
+
 } // namespace commands
 
 } // namespace ks

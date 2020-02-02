@@ -2,6 +2,7 @@
 
 # project imports
 from ..ks.models import World
+from ..ks.commands import ChangeDirection
 
 
 class LogicHandler:
@@ -21,12 +22,13 @@ class LogicHandler:
             from ..ks.models import EDirection
             command.direction = EDirection(command.direction.value)
 
-        convert_command(command)
-        self._last_cycle_commands[side_name] = command
+        if command.name() == ChangeDirection.name():
+            convert_command(command)
+        self._last_cycle_commands[side_name][command.name()] = command
 
 
     def clear_commands(self):
-        self._last_cycle_commands = {side: None for side in self._sides}
+        self._last_cycle_commands = {side: {} for side in self._sides}
 
 
     def process(self, current_cycle):

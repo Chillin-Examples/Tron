@@ -11,3 +11,7 @@ _def = enum <byte>
 [ChangeDirection]
 _def = class
 direction = ECommandDirection
+
+
+[ActivateWallBreaker]
+_def = class

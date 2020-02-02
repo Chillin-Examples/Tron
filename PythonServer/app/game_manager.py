@@ -31,8 +31,8 @@ class GameManager(RealtimeGameHandler):
     def on_initialize_gui(self):
         print("initialize gui")
 
-        self.gui_handler = gui_handler.GuiHandler(self._logic_handler.world, self.scene)
-        self.gui_handler.initialize(self.config)
+        self.gui_handler = gui_handler.GuiHandler(self.config, self._logic_handler.world, self.scene, self.team_nicknames)
+        self.gui_handler.initialize()
 
         self.scene.apply_actions()
 

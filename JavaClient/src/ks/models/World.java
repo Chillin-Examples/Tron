@@ -11,7 +11,7 @@ public class World extends KSObject
 {
 	protected List<List<ECell>> board;
 	protected Map<String, Agent> agents;
-	protected Map<String, Float> scores;
+	protected Map<String, Integer> scores;
 	protected Constants constants;
 	
 	// getters
@@ -26,7 +26,7 @@ public class World extends KSObject
 		return this.agents;
 	}
 	
-	public Map<String, Float> getScores()
+	public Map<String, Integer> getScores()
 	{
 		return this.scores;
 	}
@@ -49,7 +49,7 @@ public class World extends KSObject
 		this.agents = agents;
 	}
 	
-	public void setScores(Map<String, Float> scores)
+	public void setScores(Map<String, Integer> scores)
 	{
 		this.scores = scores;
 	}
@@ -154,7 +154,7 @@ public class World extends KSObject
 			s.add((byte) tmp7.size());
 			s.addAll(tmp7);
 			
-			for (Map.Entry<String, Float> tmp8 : scores.entrySet())
+			for (Map.Entry<String, Integer> tmp8 : scores.entrySet())
 			{
 				s.add((byte) ((tmp8.getKey() == null) ? 0 : 1));
 				if (tmp8.getKey() != null)
@@ -172,7 +172,7 @@ public class World extends KSObject
 				s.add((byte) ((tmp8.getValue() == null) ? 0 : 1));
 				if (tmp8.getValue() != null)
 				{
-					s.addAll(b2B(ByteBuffer.allocate(Float.BYTES).order(ByteOrder.LITTLE_ENDIAN).putFloat(tmp8.getValue()).array()));
+					s.addAll(b2B(ByteBuffer.allocate(Integer.BYTES).order(ByteOrder.LITTLE_ENDIAN).putInt(tmp8.getValue()).array()));
 				}
 			}
 		}
@@ -340,14 +340,14 @@ public class World extends KSObject
 				else
 					tmp41 = null;
 				
-				Float tmp42;
+				Integer tmp42;
 				byte tmp47;
 				tmp47 = s[offset];
 				offset += Byte.BYTES;
 				if (tmp47 == 1)
 				{
-					tmp42 = ByteBuffer.wrap(Arrays.copyOfRange(s, offset, offset + Float.BYTES)).order(ByteOrder.LITTLE_ENDIAN).getFloat();
-					offset += Float.BYTES;
+					tmp42 = ByteBuffer.wrap(Arrays.copyOfRange(s, offset, offset + Integer.BYTES)).order(ByteOrder.LITTLE_ENDIAN).getInt();
+					offset += Integer.BYTES;
 				}
 				else
 					tmp42 = null;

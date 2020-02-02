@@ -15,6 +15,22 @@ def dir_to_pos(direction):
     return dir_to_pos_map[direction]
 
 
+def is_valid(self, world):
+    return 0 <= self.x < len(world.board[0]) and 0 <= self.y < len(world.board)
+
+
+def get_neighbors(self, world, neighbor_type=None):
+    neighbors = {}
+
+    for direction in EDirection:
+        neighbor_pos = self + Position.dir_to_pos(direction)
+        if (neighbor_pos.is_valid(world) and \
+            (neighbor_type is None or world.board[neighbor_pos.y][neighbor_pos.x] == neighbor_type)):
+            neighbors[direction] = neighbor_pos
+
+    return neighbors
+
+
 def __eq__(self, other):
     if isinstance(other, Position):
         return self.x == other.x and self.y == other.y
@@ -49,6 +65,8 @@ def __repr__(self):
 
 
 Position.dir_to_pos = dir_to_pos
+Position.is_valid = is_valid
+Position.get_neighbors = get_neighbors
 Position.__eq__ = __eq__
 Position.__ne__ = __ne__
 Position.__hash__ = __hash__

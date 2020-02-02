@@ -52,13 +52,19 @@ class Constants : public KSObject
 protected:
 
 	int __maxCycles;
-	float __wallCreationScoreCoefficient;
+	int __maxHealth;
+	int __wallBreakerCooldown;
+	int __wallBreakerDuration;
+	int __wallScoreCoefficient;
 	int __areaWallCrashScore;
 	int __myWallCrashScore;
 	int __enemyWallCrashScore;
 
 	bool __has_maxCycles;
-	bool __has_wallCreationScoreCoefficient;
+	bool __has_maxHealth;
+	bool __has_wallBreakerCooldown;
+	bool __has_wallBreakerDuration;
+	bool __has_wallScoreCoefficient;
 	bool __has_areaWallCrashScore;
 	bool __has_myWallCrashScore;
 	bool __has_enemyWallCrashScore;
@@ -71,9 +77,24 @@ public: // getters
 		return __maxCycles;
 	}
 	
-	inline float wallCreationScoreCoefficient() const
+	inline int maxHealth() const
 	{
-		return __wallCreationScoreCoefficient;
+		return __maxHealth;
+	}
+	
+	inline int wallBreakerCooldown() const
+	{
+		return __wallBreakerCooldown;
+	}
+	
+	inline int wallBreakerDuration() const
+	{
+		return __wallBreakerDuration;
+	}
+	
+	inline int wallScoreCoefficient() const
+	{
+		return __wallScoreCoefficient;
 	}
 	
 	inline int areaWallCrashScore() const
@@ -99,9 +120,24 @@ public: // reference getters
 		return (int&) __maxCycles;
 	}
 	
-	inline float &ref_wallCreationScoreCoefficient() const
+	inline int &ref_maxHealth() const
 	{
-		return (float&) __wallCreationScoreCoefficient;
+		return (int&) __maxHealth;
+	}
+	
+	inline int &ref_wallBreakerCooldown() const
+	{
+		return (int&) __wallBreakerCooldown;
+	}
+	
+	inline int &ref_wallBreakerDuration() const
+	{
+		return (int&) __wallBreakerDuration;
+	}
+	
+	inline int &ref_wallScoreCoefficient() const
+	{
+		return (int&) __wallScoreCoefficient;
 	}
 	
 	inline int &ref_areaWallCrashScore() const
@@ -128,10 +164,28 @@ public: // setters
 		has_maxCycles(true);
 	}
 	
-	inline void wallCreationScoreCoefficient(const float &wallCreationScoreCoefficient)
+	inline void maxHealth(const int &maxHealth)
 	{
-		__wallCreationScoreCoefficient = wallCreationScoreCoefficient;
-		has_wallCreationScoreCoefficient(true);
+		__maxHealth = maxHealth;
+		has_maxHealth(true);
+	}
+	
+	inline void wallBreakerCooldown(const int &wallBreakerCooldown)
+	{
+		__wallBreakerCooldown = wallBreakerCooldown;
+		has_wallBreakerCooldown(true);
+	}
+	
+	inline void wallBreakerDuration(const int &wallBreakerDuration)
+	{
+		__wallBreakerDuration = wallBreakerDuration;
+		has_wallBreakerDuration(true);
+	}
+	
+	inline void wallScoreCoefficient(const int &wallScoreCoefficient)
+	{
+		__wallScoreCoefficient = wallScoreCoefficient;
+		has_wallScoreCoefficient(true);
 	}
 	
 	inline void areaWallCrashScore(const int &areaWallCrashScore)
@@ -160,9 +214,24 @@ public: // has_attribute getters
 		return __has_maxCycles;
 	}
 	
-	inline bool has_wallCreationScoreCoefficient() const
+	inline bool has_maxHealth() const
 	{
-		return __has_wallCreationScoreCoefficient;
+		return __has_maxHealth;
+	}
+	
+	inline bool has_wallBreakerCooldown() const
+	{
+		return __has_wallBreakerCooldown;
+	}
+	
+	inline bool has_wallBreakerDuration() const
+	{
+		return __has_wallBreakerDuration;
+	}
+	
+	inline bool has_wallScoreCoefficient() const
+	{
+		return __has_wallScoreCoefficient;
 	}
 	
 	inline bool has_areaWallCrashScore() const
@@ -188,9 +257,24 @@ public: // has_attribute setters
 		__has_maxCycles = has_maxCycles;
 	}
 	
-	inline void has_wallCreationScoreCoefficient(const bool &has_wallCreationScoreCoefficient)
+	inline void has_maxHealth(const bool &has_maxHealth)
 	{
-		__has_wallCreationScoreCoefficient = has_wallCreationScoreCoefficient;
+		__has_maxHealth = has_maxHealth;
+	}
+	
+	inline void has_wallBreakerCooldown(const bool &has_wallBreakerCooldown)
+	{
+		__has_wallBreakerCooldown = has_wallBreakerCooldown;
+	}
+	
+	inline void has_wallBreakerDuration(const bool &has_wallBreakerDuration)
+	{
+		__has_wallBreakerDuration = has_wallBreakerDuration;
+	}
+	
+	inline void has_wallScoreCoefficient(const bool &has_wallScoreCoefficient)
+	{
+		__has_wallScoreCoefficient = has_wallScoreCoefficient;
 	}
 	
 	inline void has_areaWallCrashScore(const bool &has_areaWallCrashScore)
@@ -214,7 +298,10 @@ public:
 	Constants()
 	{
 		has_maxCycles(false);
-		has_wallCreationScoreCoefficient(false);
+		has_maxHealth(false);
+		has_wallBreakerCooldown(false);
+		has_wallBreakerDuration(false);
+		has_wallScoreCoefficient(false);
 		has_areaWallCrashScore(false);
 		has_myWallCrashScore(false);
 		has_enemyWallCrashScore(false);
@@ -243,40 +330,67 @@ public:
 			s += std::string(tmp2, sizeof(int));
 		}
 		
-		// serialize wallCreationScoreCoefficient
-		s += __has_wallCreationScoreCoefficient;
-		if (__has_wallCreationScoreCoefficient)
+		// serialize maxHealth
+		s += __has_maxHealth;
+		if (__has_maxHealth)
 		{
-			float tmp4 = __wallCreationScoreCoefficient;
+			int tmp4 = __maxHealth;
 			auto tmp5 = reinterpret_cast<char*>(&tmp4);
-			s += std::string(tmp5, sizeof(float));
+			s += std::string(tmp5, sizeof(int));
+		}
+		
+		// serialize wallBreakerCooldown
+		s += __has_wallBreakerCooldown;
+		if (__has_wallBreakerCooldown)
+		{
+			int tmp7 = __wallBreakerCooldown;
+			auto tmp8 = reinterpret_cast<char*>(&tmp7);
+			s += std::string(tmp8, sizeof(int));
+		}
+		
+		// serialize wallBreakerDuration
+		s += __has_wallBreakerDuration;
+		if (__has_wallBreakerDuration)
+		{
+			int tmp10 = __wallBreakerDuration;
+			auto tmp11 = reinterpret_cast<char*>(&tmp10);
+			s += std::string(tmp11, sizeof(int));
+		}
+		
+		// serialize wallScoreCoefficient
+		s += __has_wallScoreCoefficient;
+		if (__has_wallScoreCoefficient)
+		{
+			int tmp13 = __wallScoreCoefficient;
+			auto tmp14 = reinterpret_cast<char*>(&tmp13);
+			s += std::string(tmp14, sizeof(int));
 		}
 		
 		// serialize areaWallCrashScore
 		s += __has_areaWallCrashScore;
 		if (__has_areaWallCrashScore)
 		{
-			int tmp7 = __areaWallCrashScore;
-			auto tmp8 = reinterpret_cast<char*>(&tmp7);
-			s += std::string(tmp8, sizeof(int));
+			int tmp16 = __areaWallCrashScore;
+			auto tmp17 = reinterpret_cast<char*>(&tmp16);
+			s += std::string(tmp17, sizeof(int));
 		}
 		
 		// serialize myWallCrashScore
 		s += __has_myWallCrashScore;
 		if (__has_myWallCrashScore)
 		{
-			int tmp10 = __myWallCrashScore;
-			auto tmp11 = reinterpret_cast<char*>(&tmp10);
-			s += std::string(tmp11, sizeof(int));
+			int tmp19 = __myWallCrashScore;
+			auto tmp20 = reinterpret_cast<char*>(&tmp19);
+			s += std::string(tmp20, sizeof(int));
 		}
 		
 		// serialize enemyWallCrashScore
 		s += __has_enemyWallCrashScore;
 		if (__has_enemyWallCrashScore)
 		{
-			int tmp13 = __enemyWallCrashScore;
-			auto tmp14 = reinterpret_cast<char*>(&tmp13);
-			s += std::string(tmp14, sizeof(int));
+			int tmp22 = __enemyWallCrashScore;
+			auto tmp23 = reinterpret_cast<char*>(&tmp22);
+			s += std::string(tmp23, sizeof(int));
 		}
 		
 		return s;
@@ -293,13 +407,40 @@ public:
 			offset += sizeof(int);
 		}
 		
-		// deserialize wallCreationScoreCoefficient
-		__has_wallCreationScoreCoefficient = *((unsigned char*) (&s[offset]));
+		// deserialize maxHealth
+		__has_maxHealth = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_wallCreationScoreCoefficient)
+		if (__has_maxHealth)
 		{
-			__wallCreationScoreCoefficient = *((float*) (&s[offset]));
-			offset += sizeof(float);
+			__maxHealth = *((int*) (&s[offset]));
+			offset += sizeof(int);
+		}
+		
+		// deserialize wallBreakerCooldown
+		__has_wallBreakerCooldown = *((unsigned char*) (&s[offset]));
+		offset += sizeof(unsigned char);
+		if (__has_wallBreakerCooldown)
+		{
+			__wallBreakerCooldown = *((int*) (&s[offset]));
+			offset += sizeof(int);
+		}
+		
+		// deserialize wallBreakerDuration
+		__has_wallBreakerDuration = *((unsigned char*) (&s[offset]));
+		offset += sizeof(unsigned char);
+		if (__has_wallBreakerDuration)
+		{
+			__wallBreakerDuration = *((int*) (&s[offset]));
+			offset += sizeof(int);
+		}
+		
+		// deserialize wallScoreCoefficient
+		__has_wallScoreCoefficient = *((unsigned char*) (&s[offset]));
+		offset += sizeof(unsigned char);
+		if (__has_wallScoreCoefficient)
+		{
+			__wallScoreCoefficient = *((int*) (&s[offset]));
+			offset += sizeof(int);
 		}
 		
 		// deserialize areaWallCrashScore
@@ -439,18 +580,18 @@ public:
 		s += __has_x;
 		if (__has_x)
 		{
-			int tmp16 = __x;
-			auto tmp17 = reinterpret_cast<char*>(&tmp16);
-			s += std::string(tmp17, sizeof(int));
+			int tmp25 = __x;
+			auto tmp26 = reinterpret_cast<char*>(&tmp25);
+			s += std::string(tmp26, sizeof(int));
 		}
 		
 		// serialize y
 		s += __has_y;
 		if (__has_y)
 		{
-			int tmp19 = __y;
-			auto tmp20 = reinterpret_cast<char*>(&tmp19);
-			s += std::string(tmp20, sizeof(int));
+			int tmp28 = __y;
+			auto tmp29 = reinterpret_cast<char*>(&tmp28);
+			s += std::string(tmp29, sizeof(int));
 		}
 		
 		return s;
@@ -486,15 +627,26 @@ class Agent : public KSObject
 
 protected:
 
+	int __health;
 	Position __position;
 	EDirection __direction;
+	int __wallBreakerCooldown;
+	int __wallBreakerRemTime;
 
+	bool __has_health;
 	bool __has_position;
 	bool __has_direction;
+	bool __has_wallBreakerCooldown;
+	bool __has_wallBreakerRemTime;
 
 
 public: // getters
 
+	inline int health() const
+	{
+		return __health;
+	}
+	
 	inline Position position() const
 	{
 		return __position;
@@ -505,9 +657,24 @@ public: // getters
 		return __direction;
 	}
 	
+	inline int wallBreakerCooldown() const
+	{
+		return __wallBreakerCooldown;
+	}
+	
+	inline int wallBreakerRemTime() const
+	{
+		return __wallBreakerRemTime;
+	}
+	
 
 public: // reference getters
 
+	inline int &ref_health() const
+	{
+		return (int&) __health;
+	}
+	
 	inline Position &ref_position() const
 	{
 		return (Position&) __position;
@@ -518,9 +685,25 @@ public: // reference getters
 		return (EDirection&) __direction;
 	}
 	
+	inline int &ref_wallBreakerCooldown() const
+	{
+		return (int&) __wallBreakerCooldown;
+	}
+	
+	inline int &ref_wallBreakerRemTime() const
+	{
+		return (int&) __wallBreakerRemTime;
+	}
+	
 
 public: // setters
 
+	inline void health(const int &health)
+	{
+		__health = health;
+		has_health(true);
+	}
+	
 	inline void position(const Position &position)
 	{
 		__position = position;
@@ -533,9 +716,26 @@ public: // setters
 		has_direction(true);
 	}
 	
+	inline void wallBreakerCooldown(const int &wallBreakerCooldown)
+	{
+		__wallBreakerCooldown = wallBreakerCooldown;
+		has_wallBreakerCooldown(true);
+	}
+	
+	inline void wallBreakerRemTime(const int &wallBreakerRemTime)
+	{
+		__wallBreakerRemTime = wallBreakerRemTime;
+		has_wallBreakerRemTime(true);
+	}
+	
 
 public: // has_attribute getters
 
+	inline bool has_health() const
+	{
+		return __has_health;
+	}
+	
 	inline bool has_position() const
 	{
 		return __has_position;
@@ -546,9 +746,24 @@ public: // has_attribute getters
 		return __has_direction;
 	}
 	
+	inline bool has_wallBreakerCooldown() const
+	{
+		return __has_wallBreakerCooldown;
+	}
+	
+	inline bool has_wallBreakerRemTime() const
+	{
+		return __has_wallBreakerRemTime;
+	}
+	
 
 public: // has_attribute setters
 
+	inline void has_health(const bool &has_health)
+	{
+		__has_health = has_health;
+	}
+	
 	inline void has_position(const bool &has_position)
 	{
 		__has_position = has_position;
@@ -559,13 +774,26 @@ public: // has_attribute setters
 		__has_direction = has_direction;
 	}
 	
+	inline void has_wallBreakerCooldown(const bool &has_wallBreakerCooldown)
+	{
+		__has_wallBreakerCooldown = has_wallBreakerCooldown;
+	}
+	
+	inline void has_wallBreakerRemTime(const bool &has_wallBreakerRemTime)
+	{
+		__has_wallBreakerRemTime = has_wallBreakerRemTime;
+	}
+	
 
 public:
 
 	Agent()
 	{
+		has_health(false);
 		has_position(false);
 		has_direction(false);
+		has_wallBreakerCooldown(false);
+		has_wallBreakerRemTime(false);
 	}
 	
 	static inline const std::string nameStatic()
@@ -582,6 +810,15 @@ public:
 	{
 		std::string s = "";
 		
+		// serialize health
+		s += __has_health;
+		if (__has_health)
+		{
+			int tmp31 = __health;
+			auto tmp32 = reinterpret_cast<char*>(&tmp31);
+			s += std::string(tmp32, sizeof(int));
+		}
+		
 		// serialize position
 		s += __has_position;
 		if (__has_position)
@@ -593,9 +830,27 @@ public:
 		s += __has_direction;
 		if (__has_direction)
 		{
-			char tmp22 = (char) __direction;
-			auto tmp23 = reinterpret_cast<char*>(&tmp22);
-			s += std::string(tmp23, sizeof(char));
+			char tmp34 = (char) __direction;
+			auto tmp35 = reinterpret_cast<char*>(&tmp34);
+			s += std::string(tmp35, sizeof(char));
+		}
+		
+		// serialize wallBreakerCooldown
+		s += __has_wallBreakerCooldown;
+		if (__has_wallBreakerCooldown)
+		{
+			int tmp37 = __wallBreakerCooldown;
+			auto tmp38 = reinterpret_cast<char*>(&tmp37);
+			s += std::string(tmp38, sizeof(int));
+		}
+		
+		// serialize wallBreakerRemTime
+		s += __has_wallBreakerRemTime;
+		if (__has_wallBreakerRemTime)
+		{
+			int tmp40 = __wallBreakerRemTime;
+			auto tmp41 = reinterpret_cast<char*>(&tmp40);
+			s += std::string(tmp41, sizeof(int));
 		}
 		
 		return s;
@@ -603,6 +858,15 @@ public:
 	
 	unsigned int deserialize(const std::string &s, unsigned int offset=0)
 	{
+		// deserialize health
+		__has_health = *((unsigned char*) (&s[offset]));
+		offset += sizeof(unsigned char);
+		if (__has_health)
+		{
+			__health = *((int*) (&s[offset]));
+			offset += sizeof(int);
+		}
+		
 		// deserialize position
 		__has_position = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
@@ -616,10 +880,28 @@ public:
 		offset += sizeof(unsigned char);
 		if (__has_direction)
 		{
-			char tmp24;
-			tmp24 = *((char*) (&s[offset]));
+			char tmp42;
+			tmp42 = *((char*) (&s[offset]));
 			offset += sizeof(char);
-			__direction = (EDirection) tmp24;
+			__direction = (EDirection) tmp42;
+		}
+		
+		// deserialize wallBreakerCooldown
+		__has_wallBreakerCooldown = *((unsigned char*) (&s[offset]));
+		offset += sizeof(unsigned char);
+		if (__has_wallBreakerCooldown)
+		{
+			__wallBreakerCooldown = *((int*) (&s[offset]));
+			offset += sizeof(int);
+		}
+		
+		// deserialize wallBreakerRemTime
+		__has_wallBreakerRemTime = *((unsigned char*) (&s[offset]));
+		offset += sizeof(unsigned char);
+		if (__has_wallBreakerRemTime)
+		{
+			__wallBreakerRemTime = *((int*) (&s[offset]));
+			offset += sizeof(int);
 		}
 		
 		return offset;
@@ -634,7 +916,7 @@ protected:
 
 	std::vector<std::vector<ECell>> __board;
 	std::map<std::string, Agent> __agents;
-	std::map<std::string, float> __scores;
+	std::map<std::string, int> __scores;
 	Constants __constants;
 
 	bool __has_board;
@@ -655,7 +937,7 @@ public: // getters
 		return __agents;
 	}
 	
-	inline std::map<std::string, float> scores() const
+	inline std::map<std::string, int> scores() const
 	{
 		return __scores;
 	}
@@ -678,9 +960,9 @@ public: // reference getters
 		return (std::map<std::string, Agent>&) __agents;
 	}
 	
-	inline std::map<std::string, float> &ref_scores() const
+	inline std::map<std::string, int> &ref_scores() const
 	{
-		return (std::map<std::string, float>&) __scores;
+		return (std::map<std::string, int>&) __scores;
 	}
 	
 	inline Constants &ref_constants() const
@@ -703,7 +985,7 @@ public: // setters
 		has_agents(true);
 	}
 	
-	inline void scores(const std::map<std::string, float> &scores)
+	inline void scores(const std::map<std::string, int> &scores)
 	{
 		__scores = scores;
 		has_scores(true);
@@ -790,37 +1072,37 @@ public:
 		s += __has_board;
 		if (__has_board)
 		{
-			std::string tmp25 = "";
-			unsigned int tmp27 = __board.size();
-			auto tmp28 = reinterpret_cast<char*>(&tmp27);
-			tmp25 += std::string(tmp28, sizeof(unsigned int));
-			while (tmp25.size() && tmp25.back() == 0)
-				tmp25.pop_back();
-			unsigned char tmp30 = tmp25.size();
-			auto tmp31 = reinterpret_cast<char*>(&tmp30);
-			s += std::string(tmp31, sizeof(unsigned char));
-			s += tmp25;
+			std::string tmp43 = "";
+			unsigned int tmp45 = __board.size();
+			auto tmp46 = reinterpret_cast<char*>(&tmp45);
+			tmp43 += std::string(tmp46, sizeof(unsigned int));
+			while (tmp43.size() && tmp43.back() == 0)
+				tmp43.pop_back();
+			unsigned char tmp48 = tmp43.size();
+			auto tmp49 = reinterpret_cast<char*>(&tmp48);
+			s += std::string(tmp49, sizeof(unsigned char));
+			s += tmp43;
 			
-			for (auto &tmp32 : __board)
+			for (auto &tmp50 : __board)
 			{
 				s += '\x01';
-				std::string tmp33 = "";
-				unsigned int tmp35 = tmp32.size();
-				auto tmp36 = reinterpret_cast<char*>(&tmp35);
-				tmp33 += std::string(tmp36, sizeof(unsigned int));
-				while (tmp33.size() && tmp33.back() == 0)
-					tmp33.pop_back();
-				unsigned char tmp38 = tmp33.size();
-				auto tmp39 = reinterpret_cast<char*>(&tmp38);
-				s += std::string(tmp39, sizeof(unsigned char));
-				s += tmp33;
+				std::string tmp51 = "";
+				unsigned int tmp53 = tmp50.size();
+				auto tmp54 = reinterpret_cast<char*>(&tmp53);
+				tmp51 += std::string(tmp54, sizeof(unsigned int));
+				while (tmp51.size() && tmp51.back() == 0)
+					tmp51.pop_back();
+				unsigned char tmp56 = tmp51.size();
+				auto tmp57 = reinterpret_cast<char*>(&tmp56);
+				s += std::string(tmp57, sizeof(unsigned char));
+				s += tmp51;
 				
-				for (auto &tmp40 : tmp32)
+				for (auto &tmp58 : tmp50)
 				{
 					s += '\x01';
-					char tmp42 = (char) tmp40;
-					auto tmp43 = reinterpret_cast<char*>(&tmp42);
-					s += std::string(tmp43, sizeof(char));
+					char tmp60 = (char) tmp58;
+					auto tmp61 = reinterpret_cast<char*>(&tmp60);
+					s += std::string(tmp61, sizeof(char));
 				}
 			}
 		}
@@ -829,35 +1111,35 @@ public:
 		s += __has_agents;
 		if (__has_agents)
 		{
-			std::string tmp44 = "";
-			unsigned int tmp46 = __agents.size();
-			auto tmp47 = reinterpret_cast<char*>(&tmp46);
-			tmp44 += std::string(tmp47, sizeof(unsigned int));
-			while (tmp44.size() && tmp44.back() == 0)
-				tmp44.pop_back();
-			unsigned char tmp49 = tmp44.size();
-			auto tmp50 = reinterpret_cast<char*>(&tmp49);
-			s += std::string(tmp50, sizeof(unsigned char));
-			s += tmp44;
+			std::string tmp62 = "";
+			unsigned int tmp64 = __agents.size();
+			auto tmp65 = reinterpret_cast<char*>(&tmp64);
+			tmp62 += std::string(tmp65, sizeof(unsigned int));
+			while (tmp62.size() && tmp62.back() == 0)
+				tmp62.pop_back();
+			unsigned char tmp67 = tmp62.size();
+			auto tmp68 = reinterpret_cast<char*>(&tmp67);
+			s += std::string(tmp68, sizeof(unsigned char));
+			s += tmp62;
 			
-			for (auto &tmp51 : __agents)
+			for (auto &tmp69 : __agents)
 			{
 				s += '\x01';
-				std::string tmp52 = "";
-				unsigned int tmp54 = tmp51.first.size();
-				auto tmp55 = reinterpret_cast<char*>(&tmp54);
-				tmp52 += std::string(tmp55, sizeof(unsigned int));
-				while (tmp52.size() && tmp52.back() == 0)
-					tmp52.pop_back();
-				unsigned char tmp57 = tmp52.size();
-				auto tmp58 = reinterpret_cast<char*>(&tmp57);
-				s += std::string(tmp58, sizeof(unsigned char));
-				s += tmp52;
+				std::string tmp70 = "";
+				unsigned int tmp72 = tmp69.first.size();
+				auto tmp73 = reinterpret_cast<char*>(&tmp72);
+				tmp70 += std::string(tmp73, sizeof(unsigned int));
+				while (tmp70.size() && tmp70.back() == 0)
+					tmp70.pop_back();
+				unsigned char tmp75 = tmp70.size();
+				auto tmp76 = reinterpret_cast<char*>(&tmp75);
+				s += std::string(tmp76, sizeof(unsigned char));
+				s += tmp70;
 				
-				s += tmp51.first;
+				s += tmp69.first;
 				
 				s += '\x01';
-				s += tmp51.second.serialize();
+				s += tmp69.second.serialize();
 			}
 		}
 		
@@ -865,37 +1147,37 @@ public:
 		s += __has_scores;
 		if (__has_scores)
 		{
-			std::string tmp59 = "";
-			unsigned int tmp61 = __scores.size();
-			auto tmp62 = reinterpret_cast<char*>(&tmp61);
-			tmp59 += std::string(tmp62, sizeof(unsigned int));
-			while (tmp59.size() && tmp59.back() == 0)
-				tmp59.pop_back();
-			unsigned char tmp64 = tmp59.size();
-			auto tmp65 = reinterpret_cast<char*>(&tmp64);
-			s += std::string(tmp65, sizeof(unsigned char));
-			s += tmp59;
+			std::string tmp77 = "";
+			unsigned int tmp79 = __scores.size();
+			auto tmp80 = reinterpret_cast<char*>(&tmp79);
+			tmp77 += std::string(tmp80, sizeof(unsigned int));
+			while (tmp77.size() && tmp77.back() == 0)
+				tmp77.pop_back();
+			unsigned char tmp82 = tmp77.size();
+			auto tmp83 = reinterpret_cast<char*>(&tmp82);
+			s += std::string(tmp83, sizeof(unsigned char));
+			s += tmp77;
 			
-			for (auto &tmp66 : __scores)
+			for (auto &tmp84 : __scores)
 			{
 				s += '\x01';
-				std::string tmp67 = "";
-				unsigned int tmp69 = tmp66.first.size();
-				auto tmp70 = reinterpret_cast<char*>(&tmp69);
-				tmp67 += std::string(tmp70, sizeof(unsigned int));
-				while (tmp67.size() && tmp67.back() == 0)
-					tmp67.pop_back();
-				unsigned char tmp72 = tmp67.size();
-				auto tmp73 = reinterpret_cast<char*>(&tmp72);
-				s += std::string(tmp73, sizeof(unsigned char));
-				s += tmp67;
+				std::string tmp85 = "";
+				unsigned int tmp87 = tmp84.first.size();
+				auto tmp88 = reinterpret_cast<char*>(&tmp87);
+				tmp85 += std::string(tmp88, sizeof(unsigned int));
+				while (tmp85.size() && tmp85.back() == 0)
+					tmp85.pop_back();
+				unsigned char tmp90 = tmp85.size();
+				auto tmp91 = reinterpret_cast<char*>(&tmp90);
+				s += std::string(tmp91, sizeof(unsigned char));
+				s += tmp85;
 				
-				s += tmp66.first;
+				s += tmp84.first;
 				
 				s += '\x01';
-				float tmp75 = tmp66.second;
-				auto tmp76 = reinterpret_cast<char*>(&tmp75);
-				s += std::string(tmp76, sizeof(float));
+				int tmp93 = tmp84.second;
+				auto tmp94 = reinterpret_cast<char*>(&tmp93);
+				s += std::string(tmp94, sizeof(int));
 			}
 		}
 		
@@ -916,43 +1198,43 @@ public:
 		offset += sizeof(unsigned char);
 		if (__has_board)
 		{
-			unsigned char tmp77;
-			tmp77 = *((unsigned char*) (&s[offset]));
+			unsigned char tmp95;
+			tmp95 = *((unsigned char*) (&s[offset]));
 			offset += sizeof(unsigned char);
-			std::string tmp78 = std::string(&s[offset], tmp77);
-			offset += tmp77;
-			while (tmp78.size() < sizeof(unsigned int))
-				tmp78 += '\x00';
-			unsigned int tmp79;
-			tmp79 = *((unsigned int*) (&tmp78[0]));
+			std::string tmp96 = std::string(&s[offset], tmp95);
+			offset += tmp95;
+			while (tmp96.size() < sizeof(unsigned int))
+				tmp96 += '\x00';
+			unsigned int tmp97;
+			tmp97 = *((unsigned int*) (&tmp96[0]));
 			
 			__board.clear();
-			for (unsigned int tmp80 = 0; tmp80 < tmp79; tmp80++)
+			for (unsigned int tmp98 = 0; tmp98 < tmp97; tmp98++)
 			{
-				std::vector<ECell> tmp81;
+				std::vector<ECell> tmp99;
 				offset++;
-				unsigned char tmp82;
-				tmp82 = *((unsigned char*) (&s[offset]));
+				unsigned char tmp100;
+				tmp100 = *((unsigned char*) (&s[offset]));
 				offset += sizeof(unsigned char);
-				std::string tmp83 = std::string(&s[offset], tmp82);
-				offset += tmp82;
-				while (tmp83.size() < sizeof(unsigned int))
-					tmp83 += '\x00';
-				unsigned int tmp84;
-				tmp84 = *((unsigned int*) (&tmp83[0]));
+				std::string tmp101 = std::string(&s[offset], tmp100);
+				offset += tmp100;
+				while (tmp101.size() < sizeof(unsigned int))
+					tmp101 += '\x00';
+				unsigned int tmp102;
+				tmp102 = *((unsigned int*) (&tmp101[0]));
 				
-				tmp81.clear();
-				for (unsigned int tmp85 = 0; tmp85 < tmp84; tmp85++)
+				tmp99.clear();
+				for (unsigned int tmp103 = 0; tmp103 < tmp102; tmp103++)
 				{
-					ECell tmp86;
+					ECell tmp104;
 					offset++;
-					char tmp87;
-					tmp87 = *((char*) (&s[offset]));
+					char tmp105;
+					tmp105 = *((char*) (&s[offset]));
 					offset += sizeof(char);
-					tmp86 = (ECell) tmp87;
-					tmp81.push_back(tmp86);
+					tmp104 = (ECell) tmp105;
+					tmp99.push_back(tmp104);
 				}
-				__board.push_back(tmp81);
+				__board.push_back(tmp99);
 			}
 		}
 		
@@ -961,39 +1243,39 @@ public:
 		offset += sizeof(unsigned char);
 		if (__has_agents)
 		{
-			unsigned char tmp88;
-			tmp88 = *((unsigned char*) (&s[offset]));
+			unsigned char tmp106;
+			tmp106 = *((unsigned char*) (&s[offset]));
 			offset += sizeof(unsigned char);
-			std::string tmp89 = std::string(&s[offset], tmp88);
-			offset += tmp88;
-			while (tmp89.size() < sizeof(unsigned int))
-				tmp89 += '\x00';
-			unsigned int tmp90;
-			tmp90 = *((unsigned int*) (&tmp89[0]));
+			std::string tmp107 = std::string(&s[offset], tmp106);
+			offset += tmp106;
+			while (tmp107.size() < sizeof(unsigned int))
+				tmp107 += '\x00';
+			unsigned int tmp108;
+			tmp108 = *((unsigned int*) (&tmp107[0]));
 			
 			__agents.clear();
-			for (unsigned int tmp91 = 0; tmp91 < tmp90; tmp91++)
+			for (unsigned int tmp109 = 0; tmp109 < tmp108; tmp109++)
 			{
-				std::string tmp92;
+				std::string tmp110;
 				offset++;
-				unsigned char tmp94;
-				tmp94 = *((unsigned char*) (&s[offset]));
+				unsigned char tmp112;
+				tmp112 = *((unsigned char*) (&s[offset]));
 				offset += sizeof(unsigned char);
-				std::string tmp95 = std::string(&s[offset], tmp94);
-				offset += tmp94;
-				while (tmp95.size() < sizeof(unsigned int))
-					tmp95 += '\x00';
-				unsigned int tmp96;
-				tmp96 = *((unsigned int*) (&tmp95[0]));
+				std::string tmp113 = std::string(&s[offset], tmp112);
+				offset += tmp112;
+				while (tmp113.size() < sizeof(unsigned int))
+					tmp113 += '\x00';
+				unsigned int tmp114;
+				tmp114 = *((unsigned int*) (&tmp113[0]));
 				
-				tmp92 = s.substr(offset, tmp96);
-				offset += tmp96;
+				tmp110 = s.substr(offset, tmp114);
+				offset += tmp114;
 				
-				Agent tmp93;
+				Agent tmp111;
 				offset++;
-				offset = tmp93.deserialize(s, offset);
+				offset = tmp111.deserialize(s, offset);
 				
-				__agents[tmp92] = tmp93;
+				__agents[tmp110] = tmp111;
 			}
 		}
 		
@@ -1002,40 +1284,40 @@ public:
 		offset += sizeof(unsigned char);
 		if (__has_scores)
 		{
-			unsigned char tmp97;
-			tmp97 = *((unsigned char*) (&s[offset]));
+			unsigned char tmp115;
+			tmp115 = *((unsigned char*) (&s[offset]));
 			offset += sizeof(unsigned char);
-			std::string tmp98 = std::string(&s[offset], tmp97);
-			offset += tmp97;
-			while (tmp98.size() < sizeof(unsigned int))
-				tmp98 += '\x00';
-			unsigned int tmp99;
-			tmp99 = *((unsigned int*) (&tmp98[0]));
+			std::string tmp116 = std::string(&s[offset], tmp115);
+			offset += tmp115;
+			while (tmp116.size() < sizeof(unsigned int))
+				tmp116 += '\x00';
+			unsigned int tmp117;
+			tmp117 = *((unsigned int*) (&tmp116[0]));
 			
 			__scores.clear();
-			for (unsigned int tmp100 = 0; tmp100 < tmp99; tmp100++)
+			for (unsigned int tmp118 = 0; tmp118 < tmp117; tmp118++)
 			{
-				std::string tmp101;
+				std::string tmp119;
 				offset++;
-				unsigned char tmp103;
-				tmp103 = *((unsigned char*) (&s[offset]));
+				unsigned char tmp121;
+				tmp121 = *((unsigned char*) (&s[offset]));
 				offset += sizeof(unsigned char);
-				std::string tmp104 = std::string(&s[offset], tmp103);
-				offset += tmp103;
-				while (tmp104.size() < sizeof(unsigned int))
-					tmp104 += '\x00';
-				unsigned int tmp105;
-				tmp105 = *((unsigned int*) (&tmp104[0]));
+				std::string tmp122 = std::string(&s[offset], tmp121);
+				offset += tmp121;
+				while (tmp122.size() < sizeof(unsigned int))
+					tmp122 += '\x00';
+				unsigned int tmp123;
+				tmp123 = *((unsigned int*) (&tmp122[0]));
 				
-				tmp101 = s.substr(offset, tmp105);
-				offset += tmp105;
+				tmp119 = s.substr(offset, tmp123);
+				offset += tmp123;
 				
-				float tmp102;
+				int tmp120;
 				offset++;
-				tmp102 = *((float*) (&s[offset]));
-				offset += sizeof(float);
+				tmp120 = *((int*) (&s[offset]));
+				offset += sizeof(int);
 				
-				__scores[tmp101] = tmp102;
+				__scores[tmp119] = tmp120;
 			}
 		}
 		

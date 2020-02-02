@@ -58,4 +58,29 @@ namespace KS.Commands
 			return offset;
 		}
 	}
+	
+	public partial class ActivateWallBreaker : KSObject
+	{
+		
+
+		public ActivateWallBreaker()
+		{
+		}
+		
+		public new const string NameStatic = "ActivateWallBreaker";
+		
+		public override string Name() => "ActivateWallBreaker";
+		
+		public override byte[] Serialize()
+		{
+			List<byte> s = new List<byte>();
+			
+			return s.ToArray();
+		}
+		
+		public override uint Deserialize(byte[] s, uint offset = 0)
+		{
+			return offset;
+		}
+	}
 } // namespace KS.Commands
