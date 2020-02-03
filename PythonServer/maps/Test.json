@@ -9,10 +9,10 @@
         "WEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEW",
         "WEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEW",
         "WEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEW",
-        "WEEEEEEEEEEEEEEEEWWWEEEEEEEEEEEEEEEEW",
-        "WEEEEEEEEEEEEEEEEWWWEEEEEEEEEEEEEEEEW",
-        "WEEEEEEEEEEEEEEEEWWWEEEEEEEEEEEEEEEEW",
-        "WEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEW",
+        "WEEEEEEEEEEEEEEEWWWWWEEEEEEEEEEEEEEEW",
+        "WEEEEEEEEEEEEEEEWWWWWEEEEEEEEEEEEEEEW",
+        "WEEEEEEEEEEEEEEEWWWWWEEEEEEEEEEEEEEEW",
+        "WEEEEEEEEEEEEEEEWWWWWEEEEEEEEEEEEEEEW",
         "WEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEW",
         "WEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEW",
         "WEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEW",
@@ -25,9 +25,9 @@
     ],
 
     "constants": {
-        "max_cycles": 500,
+        "max_cycles": 300,
         "max_health": 3,
-        "wall_breaker_cooldown": 10,
+        "wall_breaker_cooldown": 12,
         "wall_breaker_duration": 6,
         "wall_score_coefficient": 1,
         "area_wall_crash_score": -50,
@@ -42,7 +42,7 @@
         },
         "Yellow": {
             "position": {"x": 35, "y": 20},
-            "direction": "Right"
+            "direction": "Left"
         }
     }
 }

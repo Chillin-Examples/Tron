@@ -65,8 +65,9 @@ def _init_objects(self):
     # Create top status
     self._top_status_ref = create_asset(self, 'TopStatus', is_ui=True)
     change_text(self, self._top_status_ref, child_ref='Cycle/Max', text=str(self.constants.max_cycles))
-    for side in self.agents.keys():
-        change_text(self, self._top_status_ref, '{}TeamName'.format(side), self._team_nicknames[side])
+    for side, agent in self.agents.items():
+        change_text(self, self._top_status_ref, child_ref='{}TeamName'.format(side), text=self._team_nicknames[side])
+        change_text(self, self._top_status_ref, child_ref='{}Health'.format(side), text=str(agent.health))
     self._update_top_status(0)
 
 
@@ -150,6 +151,7 @@ def _gui_update_health(self, gui_event):
 
 def gui_update(self, current_cycle, events):
     # Manage events
+    destruct_own_events = []
     destruct_events = []
     construct_events = []
 
@@ -170,7 +172,10 @@ def gui_update(self, current_cycle, events):
             construct_events.append(event)
 
         elif event.type == GuiEventType.DestructWall:
-            destruct_events.append(event)
+            if event.side == event.wall_side:
+                destruct_own_events.append(event)
+            else:
+                destruct_events.append(event)
 
         elif event.type == GuiEventType.CrashAreaWall:
             event.agent.gui_crash_area_wall(self, event)
@@ -187,11 +192,14 @@ def gui_update(self, current_cycle, events):
         elif event.type == GuiEventType.DecreaseHealth:
             self._gui_update_health(event)
 
-    for event in destruct_events:
+    for event in destruct_own_events:
         event.agent.gui_destruct_wall(self, event)
 
     for event in construct_events:
         event.agent.gui_construct_wall(self, event)
+
+    for event in destruct_events:
+        event.agent.gui_destruct_wall(self, event)
 
     for agent in self.agents.values():
         agent.gui_move(self)
