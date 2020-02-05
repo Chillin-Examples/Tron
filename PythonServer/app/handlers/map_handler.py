@@ -30,7 +30,7 @@ class MapHandler:
     def _fill_constants(self, world, constants_info):
         world.constants = Constants(
             max_cycles = constants_info['max_cycles'],
-            max_health = constants_info['max_health'],
+            init_health = constants_info['init_health'],
             wall_breaker_cooldown = constants_info['wall_breaker_cooldown'],
             wall_breaker_duration = constants_info['wall_breaker_duration'],
             wall_score_coefficient = constants_info['wall_score_coefficient'],
@@ -44,7 +44,7 @@ class MapHandler:
         world.agents = {}
         for side, agent_info in agents_info.items():
             agent = Agent(
-                health = world.constants.max_health,
+                health = world.constants.init_health,
                 position = Position(agent_info['position']['x'], agent_info['position']['y']),
                 direction = EDirection[agent_info['direction']],
                 wall_breaker_cooldown = 0,

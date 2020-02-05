@@ -10,7 +10,7 @@ import ks.KSObject;
 public class Constants extends KSObject
 {
 	protected Integer maxCycles;
-	protected Integer maxHealth;
+	protected Integer initHealth;
 	protected Integer wallBreakerCooldown;
 	protected Integer wallBreakerDuration;
 	protected Integer wallScoreCoefficient;
@@ -25,9 +25,9 @@ public class Constants extends KSObject
 		return this.maxCycles;
 	}
 	
-	public Integer getMaxHealth()
+	public Integer getInitHealth()
 	{
-		return this.maxHealth;
+		return this.initHealth;
 	}
 	
 	public Integer getWallBreakerCooldown()
@@ -68,9 +68,9 @@ public class Constants extends KSObject
 		this.maxCycles = maxCycles;
 	}
 	
-	public void setMaxHealth(Integer maxHealth)
+	public void setInitHealth(Integer initHealth)
 	{
-		this.maxHealth = maxHealth;
+		this.initHealth = initHealth;
 	}
 	
 	public void setWallBreakerCooldown(Integer wallBreakerCooldown)
@@ -125,11 +125,11 @@ public class Constants extends KSObject
 			s.addAll(b2B(ByteBuffer.allocate(Integer.BYTES).order(ByteOrder.LITTLE_ENDIAN).putInt(maxCycles).array()));
 		}
 		
-		// serialize maxHealth
-		s.add((byte) ((maxHealth == null) ? 0 : 1));
-		if (maxHealth != null)
+		// serialize initHealth
+		s.add((byte) ((initHealth == null) ? 0 : 1));
+		if (initHealth != null)
 		{
-			s.addAll(b2B(ByteBuffer.allocate(Integer.BYTES).order(ByteOrder.LITTLE_ENDIAN).putInt(maxHealth).array()));
+			s.addAll(b2B(ByteBuffer.allocate(Integer.BYTES).order(ByteOrder.LITTLE_ENDIAN).putInt(initHealth).array()));
 		}
 		
 		// serialize wallBreakerCooldown
@@ -192,17 +192,17 @@ public class Constants extends KSObject
 		else
 			maxCycles = null;
 		
-		// deserialize maxHealth
+		// deserialize initHealth
 		byte tmp1;
 		tmp1 = s[offset];
 		offset += Byte.BYTES;
 		if (tmp1 == 1)
 		{
-			maxHealth = ByteBuffer.wrap(Arrays.copyOfRange(s, offset, offset + Integer.BYTES)).order(ByteOrder.LITTLE_ENDIAN).getInt();
+			initHealth = ByteBuffer.wrap(Arrays.copyOfRange(s, offset, offset + Integer.BYTES)).order(ByteOrder.LITTLE_ENDIAN).getInt();
 			offset += Integer.BYTES;
 		}
 		else
-			maxHealth = null;
+			initHealth = null;
 		
 		// deserialize wallBreakerCooldown
 		byte tmp2;

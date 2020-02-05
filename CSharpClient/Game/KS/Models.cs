@@ -23,7 +23,7 @@ namespace KS.Models
 	public partial class Constants : KSObject
 	{
 		public int? MaxCycles { get; set; }
-		public int? MaxHealth { get; set; }
+		public int? InitHealth { get; set; }
 		public int? WallBreakerCooldown { get; set; }
 		public int? WallBreakerDuration { get; set; }
 		public int? WallScoreCoefficient { get; set; }
@@ -51,11 +51,11 @@ namespace KS.Models
 				s.AddRange(BitConverter.GetBytes((int)MaxCycles));
 			}
 			
-			// serialize MaxHealth
-			s.Add((byte)((MaxHealth == null) ? 0 : 1));
-			if (MaxHealth != null)
+			// serialize InitHealth
+			s.Add((byte)((InitHealth == null) ? 0 : 1));
+			if (InitHealth != null)
 			{
-				s.AddRange(BitConverter.GetBytes((int)MaxHealth));
+				s.AddRange(BitConverter.GetBytes((int)InitHealth));
 			}
 			
 			// serialize WallBreakerCooldown
@@ -117,17 +117,17 @@ namespace KS.Models
 			else
 				MaxCycles = null;
 			
-			// deserialize MaxHealth
+			// deserialize InitHealth
 			byte tmp1;
 			tmp1 = (byte)s[(int)offset];
 			offset += sizeof(byte);
 			if (tmp1 == 1)
 			{
-				MaxHealth = BitConverter.ToInt32(s, (int)offset);
+				InitHealth = BitConverter.ToInt32(s, (int)offset);
 				offset += sizeof(int);
 			}
 			else
-				MaxHealth = null;
+				InitHealth = null;
 			
 			// deserialize WallBreakerCooldown
 			byte tmp2;

@@ -21,7 +21,7 @@ _def = enum <byte>
 [Constants]
 _def = class
 max_cycles = int
-max_health = int
+init_health = int
 wall_breaker_cooldown = int
 wall_breaker_duration = int
 wall_score_coefficient = int

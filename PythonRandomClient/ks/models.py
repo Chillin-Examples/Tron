@@ -29,13 +29,13 @@ class Constants(object):
 		return 'Constants'
 
 
-	def __init__(self, max_cycles=None, max_health=None, wall_breaker_cooldown=None, wall_breaker_duration=None, wall_score_coefficient=None, area_wall_crash_score=None, my_wall_crash_score=None, enemy_wall_crash_score=None):
-		self.initialize(max_cycles, max_health, wall_breaker_cooldown, wall_breaker_duration, wall_score_coefficient, area_wall_crash_score, my_wall_crash_score, enemy_wall_crash_score)
+	def __init__(self, max_cycles=None, init_health=None, wall_breaker_cooldown=None, wall_breaker_duration=None, wall_score_coefficient=None, area_wall_crash_score=None, my_wall_crash_score=None, enemy_wall_crash_score=None):
+		self.initialize(max_cycles, init_health, wall_breaker_cooldown, wall_breaker_duration, wall_score_coefficient, area_wall_crash_score, my_wall_crash_score, enemy_wall_crash_score)
 	
 
-	def initialize(self, max_cycles=None, max_health=None, wall_breaker_cooldown=None, wall_breaker_duration=None, wall_score_coefficient=None, area_wall_crash_score=None, my_wall_crash_score=None, enemy_wall_crash_score=None):
+	def initialize(self, max_cycles=None, init_health=None, wall_breaker_cooldown=None, wall_breaker_duration=None, wall_score_coefficient=None, area_wall_crash_score=None, my_wall_crash_score=None, enemy_wall_crash_score=None):
 		self.max_cycles = max_cycles
-		self.max_health = max_health
+		self.init_health = init_health
 		self.wall_breaker_cooldown = wall_breaker_cooldown
 		self.wall_breaker_duration = wall_breaker_duration
 		self.wall_score_coefficient = wall_score_coefficient
@@ -52,10 +52,10 @@ class Constants(object):
 		if self.max_cycles is not None:
 			s += struct.pack('i', self.max_cycles)
 		
-		# serialize self.max_health
-		s += b'\x00' if self.max_health is None else b'\x01'
-		if self.max_health is not None:
-			s += struct.pack('i', self.max_health)
+		# serialize self.init_health
+		s += b'\x00' if self.init_health is None else b'\x01'
+		if self.init_health is not None:
+			s += struct.pack('i', self.init_health)
 		
 		# serialize self.wall_breaker_cooldown
 		s += b'\x00' if self.wall_breaker_cooldown is None else b'\x01'
@@ -100,14 +100,14 @@ class Constants(object):
 		else:
 			self.max_cycles = None
 		
-		# deserialize self.max_health
+		# deserialize self.init_health
 		tmp1 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
 		if tmp1:
-			self.max_health = struct.unpack('i', s[offset:offset + 4])[0]
+			self.init_health = struct.unpack('i', s[offset:offset + 4])[0]
 			offset += 4
 		else:
-			self.max_health = None
+			self.init_health = None
 		
 		# deserialize self.wall_breaker_cooldown
 		tmp2 = struct.unpack('B', s[offset:offset + 1])[0]

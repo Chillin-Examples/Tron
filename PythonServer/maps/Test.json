@@ -26,13 +26,13 @@
 
     "constants": {
         "max_cycles": 300,
-        "max_health": 3,
+        "init_health": 3,
         "wall_breaker_cooldown": 12,
         "wall_breaker_duration": 6,
         "wall_score_coefficient": 1,
-        "area_wall_crash_score": -50,
-        "my_wall_crash_score": -100,
-        "enemy_wall_crash_score": -150
+        "area_wall_crash_score": -20,
+        "my_wall_crash_score": -40,
+        "enemy_wall_crash_score": -60
     },
 
     "agents": {

@@ -52,7 +52,7 @@ class Constants : public KSObject
 protected:
 
 	int __maxCycles;
-	int __maxHealth;
+	int __initHealth;
 	int __wallBreakerCooldown;
 	int __wallBreakerDuration;
 	int __wallScoreCoefficient;
@@ -61,7 +61,7 @@ protected:
 	int __enemyWallCrashScore;
 
 	bool __has_maxCycles;
-	bool __has_maxHealth;
+	bool __has_initHealth;
 	bool __has_wallBreakerCooldown;
 	bool __has_wallBreakerDuration;
 	bool __has_wallScoreCoefficient;
@@ -77,9 +77,9 @@ public: // getters
 		return __maxCycles;
 	}
 	
-	inline int maxHealth() const
+	inline int initHealth() const
 	{
-		return __maxHealth;
+		return __initHealth;
 	}
 	
 	inline int wallBreakerCooldown() const
@@ -120,9 +120,9 @@ public: // reference getters
 		return (int&) __maxCycles;
 	}
 	
-	inline int &ref_maxHealth() const
+	inline int &ref_initHealth() const
 	{
-		return (int&) __maxHealth;
+		return (int&) __initHealth;
 	}
 	
 	inline int &ref_wallBreakerCooldown() const
@@ -164,10 +164,10 @@ public: // setters
 		has_maxCycles(true);
 	}
 	
-	inline void maxHealth(const int &maxHealth)
+	inline void initHealth(const int &initHealth)
 	{
-		__maxHealth = maxHealth;
-		has_maxHealth(true);
+		__initHealth = initHealth;
+		has_initHealth(true);
 	}
 	
 	inline void wallBreakerCooldown(const int &wallBreakerCooldown)
@@ -214,9 +214,9 @@ public: // has_attribute getters
 		return __has_maxCycles;
 	}
 	
-	inline bool has_maxHealth() const
+	inline bool has_initHealth() const
 	{
-		return __has_maxHealth;
+		return __has_initHealth;
 	}
 	
 	inline bool has_wallBreakerCooldown() const
@@ -257,9 +257,9 @@ public: // has_attribute setters
 		__has_maxCycles = has_maxCycles;
 	}
 	
-	inline void has_maxHealth(const bool &has_maxHealth)
+	inline void has_initHealth(const bool &has_initHealth)
 	{
-		__has_maxHealth = has_maxHealth;
+		__has_initHealth = has_initHealth;
 	}
 	
 	inline void has_wallBreakerCooldown(const bool &has_wallBreakerCooldown)
@@ -298,7 +298,7 @@ public:
 	Constants()
 	{
 		has_maxCycles(false);
-		has_maxHealth(false);
+		has_initHealth(false);
 		has_wallBreakerCooldown(false);
 		has_wallBreakerDuration(false);
 		has_wallScoreCoefficient(false);
@@ -330,11 +330,11 @@ public:
 			s += std::string(tmp2, sizeof(int));
 		}
 		
-		// serialize maxHealth
-		s += __has_maxHealth;
-		if (__has_maxHealth)
+		// serialize initHealth
+		s += __has_initHealth;
+		if (__has_initHealth)
 		{
-			int tmp4 = __maxHealth;
+			int tmp4 = __initHealth;
 			auto tmp5 = reinterpret_cast<char*>(&tmp4);
 			s += std::string(tmp5, sizeof(int));
 		}
@@ -407,12 +407,12 @@ public:
 			offset += sizeof(int);
 		}
 		
-		// deserialize maxHealth
-		__has_maxHealth = *((unsigned char*) (&s[offset]));
+		// deserialize initHealth
+		__has_initHealth = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_maxHealth)
+		if (__has_initHealth)
 		{
-			__maxHealth = *((int*) (&s[offset]));
+			__initHealth = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
