@@ -29,12 +29,19 @@ namespace Game
 			Console.WriteLine("decide");
 
 			ChangeDirection((EDirection)random.Next(Enum.GetNames(typeof(EDirection)).Length));
+			if (this.World.Agents[this.MySide].WallBreakerCooldown == 0)
+				ActivateWallBreaker();
 		}
 
 
 		public void ChangeDirection(EDirection direction)
 		{
 			this.SendCommand(new ChangeDirection() { Direction = (ECommandDirection?)direction });
+		}
+
+		public void ActivateWallBreaker()
+		{
+			this.SendCommand(new ActivateWallBreaker());
 		}
 	}
 }

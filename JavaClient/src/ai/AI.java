@@ -29,6 +29,9 @@ public class AI extends RealtimeAI<World, KSObject> {
 		int randIndex = (int) (Math.random() * EDirection.values().length);
 		EDirection randDir = EDirection.values()[randIndex];
 		changeDirection(randDir);
+
+		if (this.world.getAgents().get(this.mySide).getWallBreakerCooldown() == 0)
+			ActivateWallBreaker();
 	}
 
 
@@ -38,5 +41,10 @@ public class AI extends RealtimeAI<World, KSObject> {
 		this.sendCommand(new ChangeDirection() {
 			{ direction = dir; }
 		});
+	}
+
+	public void ActivateWallBreaker()
+	{ 
+		this.sendCommand(new ActivateWallBreaker());
 	}
 }

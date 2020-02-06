@@ -35,6 +35,9 @@ void AI::decide()
         {EDirection::Up, EDirection::Right, EDirection::Down, EDirection::Left}
     );
     changeDirection(randomDirection);
+
+    if (this->world->agents()[this->mySide].wallBreakerCooldown() == 0)
+        activateWallBreaker();
 }
 
 
@@ -42,5 +45,11 @@ void AI::changeDirection(EDirection direction)
 {
     ChangeDirection cmd;
     cmd.direction((ECommandDirection) direction);
+    this->sendCommand(&cmd);
+}
+
+void AI::activateWallBreaker()
+{
+    ActivateWallBreaker cmd;
     this->sendCommand(&cmd);
 }

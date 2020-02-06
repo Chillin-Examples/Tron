@@ -19,6 +19,7 @@ public:
     void decide();
 
     void changeDirection(ks::models::EDirection direction);
+    void activateWallBreaker();
 };
 
 #endif // AI_H
