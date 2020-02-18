@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ....ks.models import World, Position, ECell
+from ....ks.models import World, Position, ECell, EDirection
 from ....gui_events import GuiEventType
 from ..utils import (create_asset, change_transform, end_cycle, create_main_light, change_material,
                      init_main_camera, change_text, change_slider, change_scale, change_audio)
@@ -30,6 +30,8 @@ def _init_objects(self):
         z_scale = (len(self.board)) * self.GUI_CELL_SIZE / 10,
     )
 
+    area_walls = {}
+
     for y in range(len(self.board)):
         for x in range(len(self.board[y])):
             ref = create_asset(self, 'Ground')
@@ -38,25 +40,36 @@ def _init_objects(self):
 
             if self.board[y][x] == ECell.AreaWall:
                 change_material(self, ref, 'AreaWallGround')
+            
+            if self.board[y][x] == ECell.Empty:
+                neighbors = Position(x=x, y=y).get_8neighbors(self, ECell.AreaWall)
 
-                neighbors = Position(x=x, y=y).get_neighbors(self, ECell.AreaWall)
-                if len(neighbors) == 4:
-                    continue
+                for neighbor_dirs, neighbor_pos in neighbors.items():
+                    if (neighbor_pos.x, neighbor_pos.y) not in area_walls:
+                        area_walls[(neighbor_pos.x, neighbor_pos.y)] = {}
 
-                ref = create_asset(self, 'AreaWallCenter')
-                change_transform(self, ref, position=Position(x=x, y=y).get_gui_position())
+                    if 'center' not in area_walls[(neighbor_pos.x, neighbor_pos.y)]:
+                        area_walls[(neighbor_pos.x, neighbor_pos.y)]['center'] = True
+                        ref = create_asset(self, 'AreaWallCenter')
+                        change_transform(self, ref, position=neighbor_pos.get_gui_position())
 
-                for neighbor_dir, neighbor_pos in neighbors.items():
-                    if len(neighbor_pos.get_neighbors(self, ECell.AreaWall)) == 4:
-                        continue
+                    print(neighbor_dirs)
+                    if len(neighbor_dirs) == 1:
+                        dirs = [d for d in EDirection if d != neighbor_dirs[0] and d != neighbor_dirs[0].opposite()]
+                    else:
+                        dirs = [d.opposite() for d in neighbor_dirs]
+                    neighbor_walls = neighbor_pos.get_neighbors(self, ECell.AreaWall)
 
-                    ref = create_asset(self, 'AreaWall')
-                    change_transform(
-                        self,
-                        ref,
-                        position = Position(x=x, y=y).get_gui_position(),
-                        y_rotation = neighbor_dir.get_gui_rotation(),
-                    )
+                    for d in dirs:
+                        if d in neighbor_walls and d not in area_walls[(neighbor_pos.x, neighbor_pos.y)]:
+                            area_walls[(neighbor_pos.x, neighbor_pos.y)][d] = True
+                            ref = create_asset(self, 'AreaWall')
+                            change_transform(
+                                self,
+                                ref,
+                                position = neighbor_pos.get_gui_position(),
+                                y_rotation = d.get_gui_rotation(),
+                            )
 
     # Create Agents
     for side, agent in self.agents.items():

@@ -31,6 +31,25 @@ def get_neighbors(self, world, neighbor_type=None):
     return neighbors
 
 
+def get_8neighbors(self, world, neighbor_type=None):
+    neighbors = self.get_neighbors(world, neighbor_type=neighbor_type)
+    for direction, position in list(neighbors.items()):
+        neighbors[(direction,)] = position
+        del neighbors[direction]
+
+    for dir1 in EDirection:
+        for dir2 in EDirection:
+            if dir1 == dir2 or dir1 == dir2.opposite():
+                continue
+
+            neighbor_pos = self + Position.dir_to_pos(dir1) + Position.dir_to_pos(dir2)
+            if (neighbor_pos.is_valid(world) and \
+                (neighbor_type is None or world.board[neighbor_pos.y][neighbor_pos.x] == neighbor_type)):
+                neighbors[(dir1, dir2)] = neighbor_pos
+
+    return neighbors
+
+
 def __eq__(self, other):
     if isinstance(other, Position):
         return self.x == other.x and self.y == other.y
@@ -67,6 +86,7 @@ def __repr__(self):
 Position.dir_to_pos = dir_to_pos
 Position.is_valid = is_valid
 Position.get_neighbors = get_neighbors
+Position.get_8neighbors = get_8neighbors
 Position.__eq__ = __eq__
 Position.__ne__ = __ne__
 Position.__hash__ = __hash__
