@@ -5,6 +5,7 @@
 			"app/ks/commands"
 		],
 		"allowed_teams": {},
+		"allow_duplicate_team_nicknames": true,
 		"offline_mode": true,
 		"": "online configs",
 		"match_id": "0"
@@ -39,9 +40,10 @@
 	"game_handler": {
 		"": "base game handler configs",
 		"start_time": "2017-11-08 00:50",
-		"start_waiting_time": 3,
+		"start_waiting_time": 1,
 		"": "realtime game handler configs",
 		"cycle_duration": 0.5,
+		"first_cycle_duration": 3,
 		"max_total_commands": 200,
 		"max_team_commands": 100,
 		"max_agent_commands": 100,
