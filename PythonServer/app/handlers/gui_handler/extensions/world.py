@@ -53,7 +53,6 @@ def _init_objects(self):
                         ref = create_asset(self, 'AreaWallCenter')
                         change_transform(self, ref, position=neighbor_pos.get_gui_position())
 
-                    print(neighbor_dirs)
                     if len(neighbor_dirs) == 1:
                         dirs = [d for d in EDirection if d != neighbor_dirs[0] and d != neighbor_dirs[0].opposite()]
                     else:
